@@ -3,50 +3,197 @@ import matplotlib.pyplot as plt
 import cPickle
 #import sympy
 
-small_list = False
-debug = False
-
 edge_weight = 1
 hop_weight = (8.0/3.0)**(0.5)
 jump_weight = (3.0)**(0.5) + 0.5*((2.0)**(0.5))
 
-def clean():
-    os.system('rm -f manifold_graphs_small.dat')
-    os.system('rm -f diameters.txt')
+#object for hashing graph data and doing statistics across graphs
 
+class graph_hash(object):
+    """graph_hash object
+    debug levels:
+    debug == 0: no debug. use full set.
+    debug == 1: use the first 100 manifolds as a test set
+    debug == 2: use 1 simple manifold as a test
+    """
+    def __init__(self,graph_dictionary_file_name,debug = 0):
+
+        self.graph_dictionary_file_name = graph_dictionary_file_name
+        self.debug = debug
+        self.diameter_file_name = 'diameters_' + self.graph_dictionary_file_name
+
+        if self.debug:
+            print 'Debug level:', debug
+            self.diameter_file_name = 'diameters_' + self.diameter_file_name
+            self.graph_dictionary_file_name = 'debug_' + self.graph_dictionary_file_name
+            self.clean()
+
+        self.manifold_file_name = 'input.txt'
+        self.manifold_type_file_name = 'manifolds_lex_d3_deg5.type.txt'
+
+        #initialize by building manifolds,graphs,and diameters
+        self.manifolds = self.get_manifolds()
+        self.graph_dictionary = self.load_dictionary()
+
+    def clean(self):
+        #removes hashed files
+        #prompt first for safety
+        while True:
+            sure = raw_input('Delete hashed data (y/n)?')
+            if 'y' in sure.lower():
+                os.system('rm -f ' + self.graph_dictionary_file_name)
+                os.system('rm -f ' + self.diameter_file_name)
+                break
+            elif 'n' in sure.lower():
+                break
+
+
+    def get_manifolds(self):
+        #read in raw file
+        f = open(self.manifold_file_name,'r')
+        manifolds = f.read()
+        f.close()
+        #fix dumb line splitting 
+        manifolds = manifolds.replace(',\n',',').replace('\n\n','\n').replace('\n]',']') 
+        
+        end = -1
+        
+        if self.debug == 2: #deeper debug level -- only 1 manifold
+            manifolds = [[[1,2,3,4],[1,3,4,5],[2,3,4,6],
+                [3,4,5,7],[3,4,6,7],[3,6,7,9],
+                [4,6,7,8],[6,7,8,10],[6,7,9,10]]]
+            return manifolds
+
+        elif self.debug == 1:  #simple debug level
+            end = 101 # only run on first 100 manifolds
+
+        #remove spurious newlines at end and beginning
+        manifolds =  manifolds.split('\n')[1:end] 
+
+        for i in range(len(manifolds)):
+            manifolds[i]=  manifolds[i][manifolds[i].find('['):] #remove labels and text
+            manifolds[i] = eval('list(' +manifolds[i] + ')') #turn into a python list
+        
+        return manifolds
+
+
+    def build_dictionary(self):
+        f = open(self.manifold_type_file_name ,'r')
+        types = f.readlines()
+        f.close()
+        self.graph_dictionary = {}
+        for i in range(len(self.manifolds)):
+            t = types[i].split()[-1]
+            manifold = self.manifolds[i]
+            vertices,edges = get_graph(manifold)
+            g = get_weighted_graph(manifold,vertices,edges)
+            d = get_diameter(g)
+            self.graph_dictionary[i+1] = (g,t,d)
+            print (i+1), t, pretty_print(d)
+        return self.graph_dictionary
+
+    def load_dictionary(self):
+        try:
+            print 'loading dictionary from ' + self.graph_dictionary_file_name
+            f = open(self.graph_dictionary_file_name,'rb')
+            self.graph_dictionary = cPickle.load(f)
+            f.close()
+            print 'dictionary loaded!'
+        except:
+            print 'dictionary not found. building dictionary'
+            self.graph_dictionary = self.build_dictionary()
+            self.save_dictionary()
+        return self.graph_dictionary
+
+    def save_dictionary(self):
+            f = open(self.graph_dictionary_file_name,'wb')
+            cPickle.dump(self.graph_dictionary,f)
+            f.close()
+
+
+
+#misc functions for making things nicer
 
 def sorted_set(x):
     return sorted(set(x))
 
-def get_edges(simplex):
-    return [(simplex[y],simplex[x]) for y in xrange(len(simplex)) for x in xrange(y,len(simplex)) if x!=y]
+def pretty_print(dist):
+    dist_dictionary = {}
+    for i in range(1,6):
+        dist_dictionary[i*edge_weight] = str(i)+'E'
+        dist_dictionary[i*hop_weight] = str(i)+'H'
+        dist_dictionary[i*jump_weight] = str(i)+'J'
+    dist_dictionary[edge_weight+hop_weight] = '1E+1H'
+    dist_dictionary[edge_weight+jump_weight] = '1E+1J'
+    dist_dictionary[2*edge_weight+jump_weight] = '2E+1J'
+    for d in dist_dictionary.keys():
+        if abs(d-float(dist)) < 0.000000001:
+            return dist_dictionary[d]
+    else:
+        return dist
 
-def get_manifolds(inputfile):
-    #read in raw file
-    f = open(inputfile,'r')
-    manifolds = f.read()
-    f.close()
 
-    manifolds = manifolds.replace(',\n',',').replace('\n\n','\n').replace('\n]',']') #fix dumb line splitting
+#functions for manifolds.  refactor?
 
-    if debug: #only run part of the file for debugging purposes
-        #pass
-        manifolds = [[[1,2,3,4],[1,3,4,5],[2,3,4,6],[3,4,5,7],[3,4,6,7],[3,6,7,9],[4,6,7,8],[6,7,8,10],[6,7,9,10]]]
-        return manifolds
+def traverse_edge(edge,vertex):
+    next_edge = list(edge)
+    next_edge.remove(vertex)
+    return next_edge[0]
 
-    elif small_list:
-        end = 75
-    else: 
-        end = -1
+def get_link_path(link,next_vertex):
+    links = link[:]
+    link_path = [next_vertex]
+    for i in range(len(link)-1):
+        next_edge = [x for x in links if (next_vertex in x)][0]
+        next_vertex= traverse_edge(next_edge,next_vertex)
+        links.remove(next_edge)
+        link_path.append(next_vertex)
+    return link_path
+
+def get_opposite_link_edge(link,vertex):
+    link_path = get_link_path(link,vertex)
+    v1 = traverse_link_path(link_path,vertex,nsteps=2)
+    v2 = traverse_link_path(link_path,vertex,nsteps=3)
+    return tuple(sorted([v1,v2]))
+            
+def traverse_link_path(link_path,vertex,nsteps=1):
+    vertex_index = link_path.index(vertex)
+    if vertex_index < len(link_path)-nsteps:
+        return link_path[vertex_index+nsteps]
+    else:
+        return link_path[0]
     
-    manifolds =  manifolds.split('\n')[1:end] #remove spurious newlines at end and beginning
+def get_opposite_link_vertex(link,edge):
+    link_path = get_link_path(link,edge[0])
+    next_vertex = traverse_link_path(link_path,edge[0])
+    if next_vertex in edge:
+        next_vertex = traverse_link_path(link_path,next_vertex,2)
+    else:
+        next_vertex = traverse_link_path(link_path,next_vertex,1)
+    
+    return next_vertex
 
-    for i in range(len(manifolds)):
-        manifolds[i]=  manifolds[i][manifolds[i].find('['):] #remove labels and text
-        manifolds[i] = eval('list(' +manifolds[i] + ')') #turn into a python list
-    #if debug:
-    #   manifolds = [manifolds[8]]
-    return manifolds
+def get_link(e,simplex_list):
+    link = []
+    for simplex in simplex_list:
+        all_edges = get_pairs(simplex)
+        link += [x for x in all_edges if (e[0] not in x) and (e[1] not in x)]
+    link= sorted_set(link)
+    return link
+
+
+def get_pairs(input_list):
+    return [(input_list[y],input_list[x]) for y in xrange(len(input_list)) for x in xrange(y,len(input_list)) if x!=y]
+
+
+def get_2_simplex_list(edge,manifold):
+    simplex_list=[]
+    for simplex in manifold:
+        if (edge[0] in simplex) and (edge[1] in simplex):
+            simplex_list.append(simplex)
+    return simplex_list
+
+#functions for graphs. refactor?
 
 def get_vertices(manifold):
     #get list of all vertices that appear in the manifold
@@ -58,19 +205,12 @@ def get_graph(manifold):
     #now get all edges by getting all edges in each simplex
     edges = []
     for simplex in manifold:
-        edges += get_edges(simplex) 
+        edges += get_pairs(simplex) 
     edges = sorted_set(edges)
     return vertices,edges
 
 def get_degree(edge,manifold):
     return len(get_2_simplex_list(edge,manifold))
-
-def get_2_simplex_list(edge,manifold):
-    simplex_list=[]
-    for simplex in manifold:
-        if (edge[0] in simplex) and (edge[1] in simplex):
-            simplex_list.append(simplex)
-    return simplex_list
 
 def get_hops(manifold,vertices,edges):
     #now do hops
@@ -90,69 +230,22 @@ def get_hops(manifold,vertices,edges):
     return sorted_set(hops)
 
 def get_jumps(manifold,vertices,edges,hops):
-    def traverse_edge(edge,vertex):
-        next_edge = list(edge)
-        next_edge.remove(vertex)
-        return next_edge[0]
-
-    def get_link_path(link,next_vertex):
-        links = link[:]
-        link_path = [next_vertex]
-        for i in range(len(link)-1):
-            next_edge = [x for x in links if (next_vertex in x)][0]
-            next_vertex= traverse_edge(next_edge,next_vertex)
-            links.remove(next_edge)
-            link_path.append(next_vertex)
-        return link_path
-
-    def get_opposite_link_edge(link,vertex):
-        link_path = get_link_path(link,vertex)
-        v1 = traverse_link_path(link_path,vertex,nsteps=2)
-        v2 = traverse_link_path(link_path,vertex,nsteps=3)
-        return tuple(sorted([v1,v2]))
-                
-    def traverse_link_path(link_path,vertex,nsteps=1):
-        vertex_index = link_path.index(vertex)
-        if vertex_index < len(link_path)-nsteps:
-            return link_path[vertex_index+nsteps]
-        else:
-            return link_path[0]
-        
-    def get_opposite_link_vertex(link,edge):
-        link_path = get_link_path(link,edge[0])
-        next_vertex = traverse_link_path(link_path,edge[0])
-        if next_vertex in edge:
-            next_vertex = traverse_link_path(link_path,next_vertex,2)
-        else:
-            next_vertex = traverse_link_path(link_path,next_vertex,1)
-        
-        return next_vertex
-
-    def get_link(e,simplex_list):
-        link = []
-        for simplex in simplex_list:
-            all_edges = get_edges(simplex)
-            link += [x for x in all_edges if (e[0] not in x) and (e[1] not in x)]
-        link= sorted_set(link)
-        return link
 
     #now do jumps
     jumps = []
 
     #get edges that have diameter 5
-    link_dict = {}
+    link_dictionary = {}
     degree_5_edges = []
     for e in edges:
         if get_degree(e,manifold) == 5:
             degree_5_edges.append(e)
             simplex_list = get_2_simplex_list(e,manifold)
-            link_dict[e] = get_link(e,simplex_list)
+            link_dictionary[e] = get_link(e,simplex_list)
 
     if len(degree_5_edges) >0:
-
-
         check_simplices = []
-        edge_pairs  = get_edges(degree_5_edges)
+        edge_pairs  = get_pairs(degree_5_edges)
         for pair in edge_pairs:
             check_vertices =  get_vertices(pair)
             if len(check_vertices) == 4:
@@ -160,34 +253,12 @@ def get_jumps(manifold,vertices,edges,hops):
                 if test_simplex in manifold:
                     first_edge = pair[0]
                     second_edge = pair[1]
-                    first_link  = link_dict[first_edge]
-                    second_link  = link_dict[second_edge]
+                    first_link  = link_dictionary[first_edge]
+                    second_link  = link_dictionary[second_edge]
                     v1 = get_opposite_link_vertex(first_link,second_edge)
                     v2 = get_opposite_link_vertex(second_link,first_edge)
-                #if (v1 != v2):
+                    #if (v1 != v2):
                     jumps.append(tuple(sorted([v1,v2])))
-
-
-    if False:
-        #now check all of the vertices that appear in the 2-simplices that contain that edge
-        for first_edge in degree_5_edges:
-                first_link  = link_dict[first_edge]
-                check_v1 = get_vertices(first_link)
-                for v1 in check_v1:
-                    second_edge = get_opposite_link_edge(first_link,v1)  
-                    #this must be in the link of another degree_5_edge
-                    if second_edge not in degree_5_edges:
-                        break
-                    second_link = link_dict[second_edge]
-                    v2 = get_opposite_link_vertex(second_link,first_edge)
-
-                    #only keep jumps if minimal and not to the same node
-                    #if (v1 != v2) and (keep not in edges) and (keep not in hops):
-                    if (v1 != v2):
-                        jumps.append(tuple(sorted([v1,v2])))
-
-
-
 
     return sorted_set(jumps)
                     
@@ -235,93 +306,16 @@ def get_weighted_graph(manifold,vertices,edges,report=False):
 
     return g
 
-def build_dict():
-    inputfile = 'input.txt'
-    manifolds = get_manifolds(inputfile)
-    f = open('manifolds_lex_d3_deg5.type.txt','r')
-    types = f.readlines()
-    f.close()
-    manifold_dict = {}
-    for i in range(len(manifolds)):
-        t = types[i].split()[-1]
-        manifold = manifolds[i]
-        vertices,edges = get_graph(manifold)
-        g = get_weighted_graph(manifold,vertices,edges)
-        manifold_dict[i+1] = (g,t)
-        print (i+1), t
-    return manifold_dict
-
-def load_dict(file_name):
-    if debug:
-        d = build_dict()
-        return d
-    try:
-        print 'loading dictionary from ' + file_name
-        f = open(file_name,'rb')
-        d = cPickle.load(f)
-        f.close()
-        print 'dictionary loaded!'
-    except:
-        print 'dictionary not found. building dictionary'
-        d = build_dict()
-        save_dict(d,file_name)
-    return d
-
-def save_dict(d,file_name):
-        f = open(file_name,'wb')
-        cPickle.dump(d,f)
-        f.close()
-
 def get_diameter(g):
     vertices = g.nodes()
-    pairs = get_edges(vertices)
+    pairs = get_pairs(vertices)
     shortest_paths = networkx.all_pairs_dijkstra_path_length(g)
     #for s in  shortest_paths.keys():
     #    print s,shortest_paths[s]
     return  max(get_vertices([x.values() for x in shortest_paths.values()]))
 
-def get_all_diameters(manifold_dict):
-    out = ''
-    for i in range(1,len(manifold_dict)+1):
-        print i
-        g,t = manifold_dict[i]
-        d = get_diameter(g)
-        out += t + '\t' + str(d) + '\n'
 
-    f = open('diameters.txt','w')
-    f.write(out)
-    f.close()
-
-def pretty_print(dist):
-    dist_dict = {}
-    for i in range(1,6):
-        dist_dict[i*edge_weight] = str(i)+'E'
-        dist_dict[i*hop_weight] = str(i)+'H'
-        dist_dict[i*jump_weight] = str(i)+'J'
-    dist_dict[edge_weight+hop_weight] = '1E+1H'
-    dist_dict[edge_weight+jump_weight] = '1E+1J'
-    dist_dict[2*edge_weight+jump_weight] = '2E+1J'
-    for d in dist_dict.keys():
-        if abs(d-float(dist)) < 0.000000001:
-            return dist_dict[d]
-    else:
-        return dist
-
-#clean()
-#for small dictionary (debugging) use:
-manifold_dict = load_dict('./manifold_graphs_small.dat')
-#g = manifold_dict[1][0]
-#networkx.draw(g)
-#plt.show()
-#get_diameter( manifold_dict[1][0])
-
-#get_all_diameters(manifold_dict)
-
-if True:
-    f = open('diameters.txt','r')
-    dt = f.readlines()
-    f.close()
-
+def diameter_report(graph_hash):
 
     print 'diameter statistics by topological type'
     print 'format: diameter, diameter_by_steps, count\n'
@@ -329,12 +323,11 @@ if True:
     diameters = []
     types = []
     i =1
-    for line in dt:
-        print i,line
-        t,d = line.split()
+    for v in graph_hash.graph_dictionary.values():
+        t = v[1]
+        d = v[2]
         diameters.append(d)
         types.append(t)
-        i += 1
 
     for t in set(types):
         type_diameter = []
@@ -356,16 +349,9 @@ if True:
 
 
 
+print __name__
+if __name__ == '__main__':
 
-        #diameters.append(get_diameter(g))
-        #types.append(t)
+    h = graph_hash('manifold_graphs_small.dat',1)
+    diameter_report(h)
 
-
-
-
-    #networkx.write_graphml(g,'./graphs/' + str(i+1) + '.xml')
-    #networkx.draw(g,weights=gw,colors=colors)
-    #plt.show()
-
-#for full dictionary use:
-#manifold_dict = load_dict('./manifold_graphs.dat')
