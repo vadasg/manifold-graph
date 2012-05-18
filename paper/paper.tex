@@ -1,0 +1,58 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
+\usepackage{graphicx}              % to include figures
+\usepackage{amsmath}               % great math stuff
+\usepackage{amsfonts}              % for blackboard bold, etc
+\usepackage{amsthm}                % better theorem environments
+
+% various theorems, numbered by section
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+
+\DeclareMathOperator{\id}{id}
+
+\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
+\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+
+
+\begin{document}
+
+
+\nocite{*}
+
+\title{Diameter and Pinched Sphere Theorems for Positively Curved Combinatorial 3-Manifolds}
+
+\author{Aaron Trout \\ Department of Mathematics \\
+Chatham University \\ Woodland Rd, Pittsburgh PA 15232 USA \and
+Vadas Gintautas\\ Department of Physics \\
+Chatham University \\ Woodland Rd, Pittsburgh PA 15232 USA}
+
+
+\maketitle
+
+\begin{abstract}
+  Blah blah...
+\end{abstract}
+
+
+\section{Introduction}
+
+
+\section{Basic Stuff}
+\label{sect:basics}
+
+
+\bibliographystyle{plain}
+
+\bibliography{paper}
+
+
+\end{document}
