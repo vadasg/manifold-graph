@@ -40,13 +40,25 @@ Chatham University \\ Woodland Rd, Pittsburgh PA 15232 USA}
 \maketitle
 
 \begin{abstract}
-  This paper presents a discrete version of Grove and Shiohama's generalized sphere theorem.
+  This paper presents a discrete version of Grove and Shiohama's generalized sphere theorem \cite{groveshiohama}.
 \end{abstract}
 
 
 \section{Introduction}
 
+Differential geometry is of central importance not only to geometers but also topologists, physicists and, increasingly, many of those interested in applied topics such as finite element analysis REFERENCE and computer graphics REFERENCE. One new offshoot in this area is {\em discrete differential geometry} (DDG) which seeks discrete analogs to the classical theorems and concepts from differential geometry. Since many way computational treatments of differential geometry involve discretizing shapes, this subject has particular relevance for those with applied interests REFERECE. Other recent DDG work can be found in \cite{BMM}, \cite{Crowley}, \cite{EMM}, \cite{forman2},
+\cite{GGL}, \cite{LS} and \cite{stone}. 
+
+A particularly important goal in classical differential geometry is to elucidate the relationship between the curvature of a Riemannian (or semi-Riemannian) space and its topology. The classical
+results in this area are numerous, beautiful, and have inspired an
+enormous amount of subsequent research (REFERENCES). In this paper, we will present a discrete analog of the ``generalized'' sphere theorem of Grove and Shiohama \cite{groveshiohama}.
+
 \begin{thm}[Grove-Shiohama] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with section curvature $K \geq \delta > 0$ and $diam(M) > \frac{\pi}{2\sqrt{\delta}}$. Then, $M$ is homeomorphic to a sphere.
+\end{thm}
+
+\noindent Note that the diameter bound in this theorem is exacly half that allowed by the Bonnet-Myers theorem:
+
+\begin{thm}[Bonnet-Myers] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with section curvature $K \geq \delta > 0$. Then $diam(M) \leq \frac{\pi}{\sqrt{\delta}}$.
 \end{thm}
 
 \section{Basic Stuff}
