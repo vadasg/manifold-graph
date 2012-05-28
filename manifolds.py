@@ -133,6 +133,8 @@ def pretty_print(dist):
     else:
         return dist
 
+def get_pairs(input_list):
+    return [(input_list[y],input_list[x]) for y in xrange(len(input_list)) for x in xrange(y,len(input_list)) if x!=y]
 
 #functions for manifolds.  refactor?
 
@@ -181,11 +183,6 @@ def get_link(e,simplex_list):
         link += [x for x in all_edges if (e[0] not in x) and (e[1] not in x)]
     link= sorted_set(link)
     return link
-
-
-def get_pairs(input_list):
-    return [(input_list[y],input_list[x]) for y in xrange(len(input_list)) for x in xrange(y,len(input_list)) if x!=y]
-
 
 def get_2_simplex_list(edge,manifold):
     simplex_list=[]
