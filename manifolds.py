@@ -87,8 +87,9 @@ class graph_hash(object):
             manifold = self.manifolds[i]
             vertices,edges = get_graph(manifold)
             g = get_weighted_graph(manifold,vertices,edges)
-            d = get_diameter(g)
-            self.graph_dictionary[i+1] = (g,t,d)
+	    dists = networkx.all_pairs_dijkstra_path_length(g)
+            d = get_diameter_from_dists(dists)
+            self.graph_dictionary[i+1] = (g,t,d,dists)
             print (i+1), t, pretty_print(d)
         return self.graph_dictionary
 
@@ -314,6 +315,8 @@ def get_diameter(g):
     #    print s,shortest_paths[s]
     return  max(get_vertices([x.values() for x in shortest_paths.values()]))
 
+def get_diameter_from_dists(dists):
+    return  max(get_vertices([x.values() for x in dists.values()]))
 
 def diameter_report(graph_hash):
 
