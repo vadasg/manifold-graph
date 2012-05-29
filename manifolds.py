@@ -136,22 +136,23 @@ def pretty_print(dist):
 def get_pairs(input_list):
     return [(input_list[y],input_list[x]) for y in xrange(len(input_list)) for x in xrange(y,len(input_list)) if x!=y]
 
-#functions for manifolds.  refactor?
+#functions for manifolds.  refactor?		
 
-def traverse_edge(edge,vertex):
+def traverse_edge(edge, start_vertex):
     next_edge = list(edge)
-    next_edge.remove(vertex)
+    next_edge.remove(start_vertex)
     return next_edge[0]
 
-def get_link_path(link,next_vertex):
-    links = link[:]
-    link_path = [next_vertex]
-    for i in range(len(link)-1):
-        next_edge = [x for x in links if (next_vertex in x)][0]
-        next_vertex= traverse_edge(next_edge,next_vertex)
-        links.remove(next_edge)
-        link_path.append(next_vertex)
-    return link_path
+def get_vertices_around_circle(circle, start_vertex):
+    edges = circle[:]
+    vertices = [start_vertex]
+    next_vertex = start_vertex
+    while edges:
+        next_edge = [x for x in edges if (next_vertex in x)][0]
+        next_vertex= traverse_edge(next_edge, next_vertex)
+        edges.remove(next_edge)
+        vertices.append(next_vertex)
+    return vertices
             
 def traverse_link_path(link_path,vertex,nsteps=1):
     vertex_index = link_path.index(vertex)
@@ -160,9 +161,9 @@ def traverse_link_path(link_path,vertex,nsteps=1):
     else:
         return link_path[0]
     
-def get_opposite_link_vertex(link,edge):
-    link_path = get_link_path(link,edge[0])
-    next_vertex = traverse_link_path(link_path,edge[0])
+def get_opposite_link_vertex(link, edge):
+    link_path = get_vertices_around_circle(link, edge[0])
+    next_vertex = traverse_link_path(link_path, edge[0])
     if next_vertex in edge:
         next_vertex = traverse_link_path(link_path,next_vertex,2)
     else:
@@ -233,7 +234,7 @@ def get_jumps(manifold,vertices,edges,hops):
     #now do jumps
     jumps = []
 
-    #get edges that have diameter 5
+    #get edges that have degree 5
     link_dictionary = {}
     degree_5_edges = []
     for e in edges:
@@ -352,7 +353,6 @@ def diameter_report(graph_hash):
 
 print __name__
 if __name__ == '__main__':
-
     h = graph_hash('manifold_graphs_small.dat',1)
     diameter_report(h)
 
