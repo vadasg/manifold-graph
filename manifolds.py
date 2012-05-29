@@ -176,24 +176,25 @@ def get_opposite_link_vertex(link,edge):
     
     return next_vertex
 
-def get_link(e,simplex_list):
+def get_link(simplex, manifold):
     link = []
-    for simplex in simplex_list:
-        all_edges = get_pairs(simplex)
-        link += [x for x in all_edges if (e[0] not in x) and (e[1] not in x)]
-    link= sorted_set(link)
+    for facet in get_star(simplex, manifold):
+        new_facet = facet[:]
+        for vertex in simplex:
+            new_facet.remove(vertex)
+        link.append(new_facet)
     return link
 
 def get_star(simplex, manifold):
     facets_in_star=[]
     for facet in manifold:
-	facet_in_star = True
+    	facet_in_star = True
         for vertex in simplex:
-	    if not vertex in facet:
-		facet_in_star = False
-		break
+    	    if not vertex in facet:
+        		facet_in_star = False
+        		break
         if facet_in_star:
-	    facets_in_star.append(facet)
+    	    facets_in_star.append(facet)
     return facets_in_star
 
 
@@ -245,7 +246,7 @@ def get_jumps(manifold,vertices,edges,hops):
         if get_degree(e,manifold) == 5:
             degree_5_edges.append(e)
             simplex_list = get_star(e,manifold)
-            link_dictionary[e] = get_link(e,simplex_list)
+            link_dictionary[e] = get_link(e,manifold)
 
     if len(degree_5_edges) >0:
         check_simplices = []
