@@ -87,7 +87,7 @@ class graph_hash(object):
             manifold = self.manifolds[i]
             vertices,edges = get_graph(manifold)
             g = get_weighted_graph(manifold,vertices,edges)
-	    dists = networkx.all_pairs_dijkstra_path_length(g)
+            dists = networkx.all_pairs_dijkstra_path_length(g)
             d = get_diameter_from_dists(dists)
             self.graph_dictionary[i+1] = (g,t,d,dists)
             print (i+1), t, pretty_print(d)
@@ -152,12 +152,6 @@ def get_link_path(link,next_vertex):
         links.remove(next_edge)
         link_path.append(next_vertex)
     return link_path
-
-def get_opposite_link_edge(link,vertex):
-    link_path = get_link_path(link,vertex)
-    v1 = traverse_link_path(link_path,vertex,nsteps=2)
-    v2 = traverse_link_path(link_path,vertex,nsteps=3)
-    return tuple(sorted([v1,v2]))
             
 def traverse_link_path(link_path,vertex,nsteps=1):
     vertex_index = link_path.index(vertex)
