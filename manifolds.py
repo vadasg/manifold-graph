@@ -149,7 +149,7 @@ def get_vertices_around_circle(circle, start_vertex):
     next_vertex = start_vertex
     while edges:
         next_edge = [x for x in edges if (next_vertex in x)][0]
-        next_vertex= traverse_edge(next_edge, next_vertex)
+        next_vertex = traverse_edge(next_edge, next_vertex)
         edges.remove(next_edge)
         vertices.append(next_vertex)
     return vertices
@@ -172,6 +172,8 @@ def get_opposite_link_vertex(link, edge):
     return next_vertex
 
 def get_link(simplex, manifold):
+    if isinstance(simplex, (int, long)):
+		simplex = [simplex]
     link = []
     for facet in get_star(simplex, manifold):
         new_facet = facet[:]
@@ -181,6 +183,8 @@ def get_link(simplex, manifold):
     return link
 
 def get_star(simplex, manifold):
+    if isinstance(simplex, (int, long)):
+		simplex = [simplex]
     facets_in_star=[]
     for facet in manifold:
     	facet_in_star = True
