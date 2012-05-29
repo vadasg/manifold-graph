@@ -184,12 +184,18 @@ def get_link(e,simplex_list):
     link= sorted_set(link)
     return link
 
-def get_edge_star(edge, manifold):
+def get_star(simplex, manifold):
     facets_in_star=[]
     for facet in manifold:
-        if (edge[0] in facet) and (edge[1] in facet):
-            facets_in_star.append(facet)
+	facet_in_star = True
+        for vertex in simplex:
+	    if not vertex in facet:
+		facet_in_star = False
+		break
+        if facet_in_star:
+	    facets_in_star.append(facet)
     return facets_in_star
+
 
 #functions for graphs. refactor?
 
@@ -207,8 +213,8 @@ def get_graph(manifold):
     edges = sorted_set(edges)
     return vertices,edges
 
-def get_degree(edge,manifold):
-    return len(get_edge_star(edge,manifold))
+def get_degree(simplex,manifold):
+    return len(get_star(simplex,manifold))
 
 def get_hops(manifold,vertices,edges):
     #now do hops
@@ -238,7 +244,7 @@ def get_jumps(manifold,vertices,edges,hops):
     for e in edges:
         if get_degree(e,manifold) == 5:
             degree_5_edges.append(e)
-            simplex_list = get_edge_star(e,manifold)
+            simplex_list = get_star(e,manifold)
             link_dictionary[e] = get_link(e,simplex_list)
 
     if len(degree_5_edges) >0:
