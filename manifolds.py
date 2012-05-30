@@ -19,15 +19,15 @@ class graph_hash(object):
 
         self.graph_dictionary_file_name = graph_dictionary_file_name
         self.debug = debug
-        self.diameter_file_name = 'diameters_'\
-            + self.graph_dictionary_file_name
+        self.diameter_file_name = ('diameters_' 
+            + self.graph_dictionary_file_name)
 
         if self.debug:
             print 'Debug level:', debug
-            self.diameter_file_name = 'diameters_'\
-                + self.diameter_file_name
-            self.graph_dictionary_file_name = 'debug_'\
-                + self.graph_dictionary_file_name
+            self.diameter_file_name = ('diameters_'
+                + self.diameter_file_name)
+            self.graph_dictionary_file_name = ('debug_'
+                + self.graph_dictionary_file_name)
             self.clean()
 
         self.manifold_file_name = 'input.txt'
@@ -97,8 +97,8 @@ class graph_hash(object):
 
     def load_dictionary(self):
         try:
-            print 'loading dictionary from '\
-                + self.graph_dictionary_file_name
+            print ('loading dictionary from '
+                + self.graph_dictionary_file_name)
             f = open(self.graph_dictionary_file_name,'rb')
             self.graph_dictionary = cPickle.load(f)
             f.close()
@@ -127,9 +127,9 @@ def pretty_print(dist):
     for num_edges in range(0,max_edges):
         for num_hops in range(0, max_hops):
             for num_jumps in range(0, max_jumps):
-                d = num_edges * edge_weight\
-                    + num_hops * hop_weight\
-                    + num_jumps * jump_weight
+                d = (num_edges * edge_weight
+                    + num_hops * hop_weight
+                    + num_jumps * jump_weight)
                 if abs(d-float(dist)) < 0.000000001:
                     out_string = ''
                     if (num_edges > 0):
@@ -212,7 +212,6 @@ def get_star(simplex, manifold):
         if facet_in_star:
     	    facets_in_star.append(facet)
     return facets_in_star
-
 
 #functions for graphs. refactor?
 
@@ -354,17 +353,17 @@ def diameter_report(graph_hash):
         out = ''
         #print t,set(type_diameter)
         for d in sorted_set(type_diameter):
-            out += str(d)[:4] + '\t' + pretty_print(d)\
-                + ' '*(9-len(pretty_print(d)))\
-                + str(type_diameter.count(d)) + '\n'
+            out += (str(d)[:4] + '\t' + pretty_print(d)
+                    + ' '*(9-len(pretty_print(d)))
+                    + str(type_diameter.count(d)) + '\n')
         print t
         print out
-
+    
     print 'global diameter statistics by topological type\n'
 
     for d in sorted_set(diameters):
-        print str(d)[:4] + '\t' + pretty_print(d)\
-            +' '*(9-len(pretty_print(d))), diameters.count(d)
+        print (str(d)[:4] + '\t' + pretty_print(d)\
+               +' '*(9-len(pretty_print(d))), diameters.count(d))
 
 print __name__
 if __name__ == '__main__':
