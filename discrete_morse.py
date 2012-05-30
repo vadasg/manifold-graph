@@ -22,10 +22,28 @@
 #  
 #  
 
-
+import manifolds as mfld
 
 def main():
-	return 0
+    gh = mfld.graph_hash('manifold_graphs_small.dat', 1)
+    gd = gh.graph_dictionary
+
+    manifold_id = 23
+    base_vertex = 1
+    
+    dists = gd[manifold_id][-1]
+    m = gh.manifolds[manifold_id - 1]
+    print m
+    
+    vertices = dists.keys()
+    print vertices
+    for v in vertices:
+        d = dists[base_vertex][v]
+        lk = mfld.get_link(v, m)
+        lk_verts = mfld.get_vertices(lk)
+        ds = [w for w in lk_verts if dists[base_vertex][w] < d]
+        print ds
+    return 0
 
 if __name__ == '__main__':
 	main()
