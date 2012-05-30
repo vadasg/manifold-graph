@@ -323,7 +323,7 @@ def get_weighted_graph(manifold,vertices,edges,report=False):
 
 def get_diameter(g):
     vertices = g.nodes()
-    pairs = get_pairs(vertices)
+    #pairs = get_pairs(vertices)
     dists = networkx.all_pairs_dijkstra_path_length(g)
     #for s in  shortest_paths.keys():
     #    print s,shortest_paths[s]
