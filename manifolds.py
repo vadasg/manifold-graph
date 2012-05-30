@@ -1,7 +1,6 @@
 import networkx, os
 import matplotlib.pyplot as plt
 import cPickle
-#import sympy
 
 edge_weight = 1
 hop_weight = (8.0/3.0)**(0.5)
@@ -147,29 +146,38 @@ def get_vertices_around_circle(circle, start_vertex):
     edges = circle[:]
     vertices = [start_vertex]
     next_vertex = start_vertex
-    while edges:
+    while len(edges) > 1:
         next_edge = [x for x in edges if (next_vertex in x)][0]
         next_vertex = traverse_edge(next_edge, next_vertex)
         edges.remove(next_edge)
         vertices.append(next_vertex)
     return vertices
-            
-def traverse_link_path(link_path,vertex,nsteps=1):
-    vertex_index = link_path.index(vertex)
-    if vertex_index < len(link_path)-nsteps:
-        return link_path[vertex_index+nsteps]
-    else:
-        return link_path[0]
-    
-def get_opposite_link_vertex(link, edge):
-    link_path = get_vertices_around_circle(link, edge[0])
-    next_vertex = traverse_link_path(link_path, edge[0])
-    if next_vertex in edge:
-        next_vertex = traverse_link_path(link_path,next_vertex,2)
-    else:
-        next_vertex = traverse_link_path(link_path,next_vertex,1)
-    
-    return next_vertex
+
+def get_opposite_simplex_in_circle(circle, simplex):
+	if isinstance(simplex, (int, long)):
+		simplex = [simplex]
+	vertices = get_vertices_around_circle(circle, simplex[0])
+	num_edges = len(circle)
+	diam = num_edges / 2
+	if len(simplex)==2:
+		other_index = vertices.index(simplex[1])
+		if num_edges % 2 == 0:
+			if other_index == (num_edges - 1):
+				return [vertices[diam-1], vertices[diam]]
+			elif other_index == 1:
+				return [vertices[diam], vertices[diam+1]]
+		if num_edges % 2 == 1:
+			if other_index == (num_edges - 1):
+				return vertices[diam]
+			elif other_index == 1:
+				return vertices[diam+1]
+	elif len(simplex)==1:
+		if num_edges % 2 == 0:
+			return vertices[diam]
+		if num_edges % 2 == 1:
+			return [vertices[diam], vertices[diam+1]]
+	else:
+		sys.exit("wrong dimension simplex")
 
 def get_link(simplex, manifold):
     if isinstance(simplex, (int, long)):
@@ -223,8 +231,7 @@ def get_hops(manifold,vertices,edges):
         check_in = [simplex for simplex in manifold if v1 in simplex]
         for ci in check_in:
             for v2 in vertices:
-                #if (tuple(sorted([v1,v2])) not in edges) and (v1 != v2):
-                if (v1 != v2):
+                 if (v1 != v2):
                     test_simplex = ci[:]
                     if v2 not in test_simplex:
                         test_simplex[test_simplex.index(v1)] = v2
@@ -234,10 +241,6 @@ def get_hops(manifold,vertices,edges):
     return sorted_set(hops)
 
 def get_jumps(manifold,vertices,edges,hops):
-
-    #now do jumps
-    jumps = []
-
     #get edges that have degree 5
     link_dictionary = {}
     degree_5_edges = []
@@ -247,6 +250,7 @@ def get_jumps(manifold,vertices,edges,hops):
             simplex_list = get_star(e,manifold)
             link_dictionary[e] = get_link(e,manifold)
 
+    jumps = []
     if len(degree_5_edges) >0:
         check_simplices = []
         edge_pairs  = get_pairs(degree_5_edges)
@@ -259,8 +263,8 @@ def get_jumps(manifold,vertices,edges,hops):
                     second_edge = pair[1]
                     first_link  = link_dictionary[first_edge]
                     second_link  = link_dictionary[second_edge]
-                    v1 = get_opposite_link_vertex(first_link,second_edge)
-                    v2 = get_opposite_link_vertex(second_link,first_edge)
+                    v1 = get_opposite_simplex_in_circle(first_link,second_edge)
+                    v2 = get_opposite_simplex_in_circle(second_link,first_edge)
                     #if (v1 != v2):
                     jumps.append(tuple(sorted([v1,v2])))
 
@@ -268,19 +272,16 @@ def get_jumps(manifold,vertices,edges,hops):
                     
 def get_weighted_graph(manifold,vertices,edges,report=False):
 
-
     hops = get_hops(manifold,vertices,edges)
     jumps = get_jumps(manifold,vertices,edges,hops)
 
     if report:
-
         print manifold 
         print 'simplices\t', len(manifold)
         print 'edges\t\t', len(edges)
         #print 'hops\t\t', len(hops)
         #print 'jumps\t\t', len(jumps),jumps
 
-    
     g = networkx.MultiGraph()
     g.add_nodes_from(vertices)
     g.add_edges_from(edges,weight=edge_weight)
@@ -353,10 +354,9 @@ def diameter_report(graph_hash):
     for d in sorted_set(diameters):
         print str(d)[:4]+'\t'+pretty_print(d)+' '*(9-len(pretty_print(d))), diameters.count(d)
 
-
-
 print __name__
 if __name__ == '__main__':
+    #h = graph_hash('manifold_graphs.dat',0)
     h = graph_hash('manifold_graphs_small.dat',1)
     diameter_report(h)
 
