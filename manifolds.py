@@ -15,28 +15,30 @@ class graph_hash(object):
     debug == 1: use the first 100 manifolds as a test set
     debug == 2: use 1 simple manifold as a test
     """
-    def __init__(self,graph_dictionary_file_name,debug = 0):
+    def __init__(self, graph_dictionary_file_name, debug = 0):
 
         self.graph_dictionary_file_name = graph_dictionary_file_name
         self.debug = debug
-        self.diameter_file_name = 'diameters_' + self.graph_dictionary_file_name
+        self.diameter_file_name = 'diameters_'\
+            + self.graph_dictionary_file_name
 
         if self.debug:
             print 'Debug level:', debug
-            self.diameter_file_name = 'diameters_' + self.diameter_file_name
-            self.graph_dictionary_file_name = 'debug_' + self.graph_dictionary_file_name
+            self.diameter_file_name = 'diameters_'\
+                + self.diameter_file_name
+            self.graph_dictionary_file_name = 'debug_'\
+                + self.graph_dictionary_file_name
             self.clean()
 
         self.manifold_file_name = 'input.txt'
         self.manifold_type_file_name = 'manifolds_lex_d3_deg5.type.txt'
 
-        #initialize by building manifolds,graphs,and diameters
+        #initialize by building manifolds, graphs, and diameters
         self.manifolds = self.get_manifolds()
         self.graph_dictionary = self.load_dictionary()
 
     def clean(self):
-        #removes hashed files
-        #prompt first for safety
+        #removes hashed files, prompting first for safety
         while True:
             sure = raw_input('Delete hashed data (y/n)?')
             if 'y' in sure.lower():
@@ -52,29 +54,30 @@ class graph_hash(object):
         f = open(self.manifold_file_name,'r')
         manifolds = f.read()
         f.close()
-        #fix dumb line splitting 
-        manifolds = manifolds.replace(',\n',',').replace('\n\n','\n').replace('\n]',']') 
         
+        #fix dumb line splitting 
+        manifolds = manifolds\
+            .replace(',\n',',').replace('\n\n','\n').replace('\n]',']') 
         end = -1
         
-        if self.debug == 2: #deeper debug level -- only 1 manifold
-            manifolds = [[[1,2,3,4],[1,3,4,5],[2,3,4,6],
-                [3,4,5,7],[3,4,6,7],[3,6,7,9],
-                [4,6,7,8],[6,7,8,10],[6,7,9,10]]]
+        #deeper debug level -- only 1 manifold
+        if self.debug == 2:
+            manifolds = [[[1,2,3,4],[1,3,4,5],[2,3,4,6], [3,4,5,7],
+                [3,4,6,7],[3,6,7,9],[4,6,7,8],[6,7,8,10],[6,7,9,10]]]
             return manifolds
 
-        elif self.debug == 1:  #simple debug level
-            end = 101 # only run on first 100 manifolds
-
+        #simple debug level -- only run on first 100 manifolds
+        elif self.debug == 1: end = 101
+            
         #remove spurious newlines at end and beginning
         manifolds =  manifolds.split('\n')[1:end] 
 
         for i in range(len(manifolds)):
-            manifolds[i]=  manifolds[i][manifolds[i].find('['):] #remove labels and text
-            manifolds[i] = eval('list(' +manifolds[i] + ')') #turn into a python list
-        
+            #remove labels and text
+            manifolds[i]=  manifolds[i][manifolds[i].find('['):]
+            #turn into a python list
+            manifolds[i] = eval('list(' +manifolds[i] + ')')        
         return manifolds
-
 
     def build_dictionary(self):
         f = open(self.manifold_type_file_name ,'r')
@@ -94,7 +97,8 @@ class graph_hash(object):
 
     def load_dictionary(self):
         try:
-            print 'loading dictionary from ' + self.graph_dictionary_file_name
+            print 'loading dictionary from '\
+                + self.graph_dictionary_file_name
             f = open(self.graph_dictionary_file_name,'rb')
             self.graph_dictionary = cPickle.load(f)
             f.close()
@@ -120,18 +124,20 @@ def pretty_print(dist):
     max_edges = int(dist / edge_weight) + 1
     max_hops = int(dist / hop_weight) + 1
     max_jumps = int(dist / jump_weight) + 1
-    for edges in range(0,max_edges):
-        for hops in range(0, max_hops):
-            for jumps in range(0, max_jumps):
-                d = edges*edge_weight + hops*hop_weight + jumps*jump_weight
+    for num_edges in range(0,max_edges):
+        for num_hops in range(0, max_hops):
+            for num_jumps in range(0, max_jumps):
+                d = num_edges * edge_weight\
+                    + num_hops * hop_weight\
+                    + num_jumps * jump_weight
                 if abs(d-float(dist)) < 0.000000001:
                     out_string = ''
-                    if (edges > 0):
-                        out_string += str(edges) + 'E '
-                    if (hops > 0):
-                        out_string += str(hops) + 'H '
-                    if (jumps > 0):
-                        out_string += str(jumps) + 'J'
+                    if (num_edges > 0):
+                        out_string += str(num_edges) + 'E '
+                    if (num_hops > 0):
+                        out_string += str(num_hops) + 'H '
+                    if (num_jumps > 0):
+                        out_string += str(num_jumps) + 'J'
                     return out_string
     return str(dist)
 
@@ -211,13 +217,13 @@ def get_star(simplex, manifold):
 #functions for graphs. refactor?
 
 def get_vertices(manifold):
-    #get list of all vertices that appear in the manifold
-    return sorted_set([vertex for simplex in manifold for vertex in simplex])
+    #get list of all vertices v that appear in the manifold
+    return sorted_set([v for simplex in manifold for v in simplex])
 
 def get_graph(manifold):
-    #first get all vertices
     vertices = get_vertices(manifold)
-    #now get all edges by getting all edges in each simplex
+    
+    #get all edges by getting all edges in each simplex
     edges = []
     for simplex in manifold:
         edges += get_pairs(simplex) 
@@ -254,9 +260,9 @@ def get_jumps(manifold,vertices,edges,hops):
             link_dictionary[e] = get_link(e,manifold)
 
     jumps = []
-    if len(degree_5_edges) >0:
+    if degree_5_edges:
         check_simplices = []
-        edge_pairs  = get_pairs(degree_5_edges)
+        edge_pairs = get_pairs(degree_5_edges)
         for pair in edge_pairs:
             check_vertices =  get_vertices(pair)
             if len(check_vertices) == 4:
@@ -266,8 +272,10 @@ def get_jumps(manifold,vertices,edges,hops):
                     second_edge = pair[1]
                     first_link  = link_dictionary[first_edge]
                     second_link  = link_dictionary[second_edge]
-                    v1 = get_opposite_simplex_in_circle(first_link,second_edge)
-                    v2 = get_opposite_simplex_in_circle(second_link,first_edge)
+                    v1 = get_opposite_simplex_in_circle(first_link,
+                                                        second_edge)
+                    v2 = get_opposite_simplex_in_circle(second_link,
+                                                        first_edge)
                     jumps.append(tuple(sorted([v1,v2])))
 
     return sorted_set(jumps)
@@ -316,10 +324,10 @@ def get_weighted_graph(manifold,vertices,edges,report=False):
 def get_diameter(g):
     vertices = g.nodes()
     pairs = get_pairs(vertices)
-    shortest_paths = networkx.all_pairs_dijkstra_path_length(g)
+    dists = networkx.all_pairs_dijkstra_path_length(g)
     #for s in  shortest_paths.keys():
     #    print s,shortest_paths[s]
-    return  max(get_vertices([x.values() for x in shortest_paths.values()]))
+    return  max(get_vertices([x.values() for x in dists.values()]))
 
 def get_diameter_from_dists(dists):
     return  max(get_vertices([x.values() for x in dists.values()]))
@@ -346,19 +354,20 @@ def diameter_report(graph_hash):
         out = ''
         #print t,set(type_diameter)
         for d in sorted_set(type_diameter):
-            out += str(d)[:4]+'\t'+pretty_print(d)+' '*(9-len(pretty_print(d))) + str(type_diameter.count(d)) +'\n'
+            out += str(d)[:4] + '\t' + pretty_print(d)\
+                + ' '*(9-len(pretty_print(d)))\
+                + str(type_diameter.count(d)) + '\n'
         print t
         print out
-
 
     print 'global diameter statistics by topological type\n'
 
     for d in sorted_set(diameters):
-        print str(d)[:4]+'\t'+pretty_print(d)+' '*(9-len(pretty_print(d))), diameters.count(d)
+        print str(d)[:4] + '\t' + pretty_print(d)\
+            +' '*(9-len(pretty_print(d))), diameters.count(d)
 
 print __name__
 if __name__ == '__main__':
     #h = graph_hash('manifold_graphs.dat',0)
     h = graph_hash('manifold_graphs_small.dat',1)
     diameter_report(h)
-
