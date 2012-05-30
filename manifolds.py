@@ -117,18 +117,23 @@ def sorted_set(x):
 
 def pretty_print(dist):
     dist_dictionary = {}
-    for i in range(1,6):
-        dist_dictionary[i*edge_weight] = str(i)+'E'
-        dist_dictionary[i*hop_weight] = str(i)+'H'
-        dist_dictionary[i*jump_weight] = str(i)+'J'
-    dist_dictionary[edge_weight+hop_weight] = '1E+1H'
-    dist_dictionary[edge_weight+jump_weight] = '1E+1J'
-    dist_dictionary[2*edge_weight+jump_weight] = '2E+1J'
-    for d in dist_dictionary.keys():
-        if abs(d-float(dist)) < 0.000000001:
-            return dist_dictionary[d]
-    else:
-        return dist
+    max_edges = int(dist / edge_weight) + 1
+    max_hops = int(dist / hop_weight) + 1
+    max_jumps = int(dist / jump_weight) + 1
+    for edges in range(0,max_edges):
+        for hops in range(0, max_hops):
+            for jumps in range(0, max_jumps):
+                d = edges*edge_weight + hops*hop_weight + jumps*jump_weight
+                if abs(d-float(dist)) < 0.000000001:
+                    out_string = ''
+                    if (edges > 0):
+                        out_string += str(edges) + 'E '
+                    if (hops > 0):
+                        out_string += str(hops) + 'H '
+                    if (jumps > 0):
+                        out_string += str(jumps) + 'J'
+                    return out_string
+    return str(dist)
 
 def get_pairs(input_list):
 	return [(x,y) for y in input_list for x in input_list if x != y]
@@ -263,7 +268,6 @@ def get_jumps(manifold,vertices,edges,hops):
                     second_link  = link_dictionary[second_edge]
                     v1 = get_opposite_simplex_in_circle(first_link,second_edge)
                     v2 = get_opposite_simplex_in_circle(second_link,first_edge)
-                    #if (v1 != v2):
                     jumps.append(tuple(sorted([v1,v2])))
 
     return sorted_set(jumps)
