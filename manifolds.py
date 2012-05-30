@@ -110,8 +110,6 @@ class graph_hash(object):
             cPickle.dump(self.graph_dictionary,f)
             f.close()
 
-
-
 #misc functions for making things nicer
 
 def sorted_set(x):
@@ -133,7 +131,7 @@ def pretty_print(dist):
         return dist
 
 def get_pairs(input_list):
-    return [(input_list[y],input_list[x]) for y in xrange(len(input_list)) for x in xrange(y,len(input_list)) if x!=y]
+	return [(x,y) for y in input_list for x in input_list if x != y]
 
 #functions for manifolds.  refactor?		
 
