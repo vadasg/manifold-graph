@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  untitled.py
+#  discrete_morse.py
 #  
 #  Copyright 2012 Aaron Trout, Vadas Gintautas
 #  
