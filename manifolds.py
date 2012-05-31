@@ -1,5 +1,5 @@
 import networkx, os
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import cPickle
 #import sympy
 
@@ -17,6 +17,9 @@ class graph_hash(object):
     debug == 2: use 1 simple manifold as a test
     """
     def __init__(self,graph_dictionary_file_name,debug = 0):
+    """
+    initialize object
+    """
 
         self.graph_dictionary_file_name = graph_dictionary_file_name
         self.debug = debug
@@ -24,7 +27,7 @@ class graph_hash(object):
 
         if self.debug:
             print 'Debug level:', debug
-            self.diameter_file_name = 'diameters_' + self.diameter_file_name
+            self.diameter_file_name = 'debug_' + self.diameter_file_name
             self.graph_dictionary_file_name = 'debug_' + self.graph_dictionary_file_name
             self.clean()
 
@@ -109,7 +112,6 @@ class graph_hash(object):
             f = open(self.graph_dictionary_file_name,'wb')
             cPickle.dump(self.graph_dictionary,f)
             f.close()
-
 
 
 #misc functions for making things nicer
@@ -349,7 +351,6 @@ def diameter_report(graph_hash):
 
 
 
-print __name__
 if __name__ == '__main__':
 
     h = graph_hash('manifold_graphs_small.dat',1)
