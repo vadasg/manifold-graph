@@ -38,7 +38,7 @@ class SimplicialComplex:
     vertices given by integers.\n'''
     
     def __init__(self, facets):
-        self.facets = facets
+        self.facets = sorted(facets)
     
     def get_closed_star(self, simplex):
         if isinstance(simplex, (int, long)):
@@ -58,14 +58,12 @@ class SimplicialComplex:
         return SimplicialComplex(link)
         
     def get_simplices_of_dimension(self, dim):
-        simplices = []
+        simplices = set()
         for facet in self.facets:
-            simplices += map(list, itertools.combinations(facet, dim+1))
-        return simplices
+            s = set(itertools.combinations(facet, dim+1))
+            simplices = simplices.union(s)
+        return map(list, sorted(simplices))
     
-    def get_degree(self, simplex):
-        pass
-
     def __str__(self):
         return "Simplicial complex with facets: " + str(self.facets)
 
@@ -79,6 +77,10 @@ class ThreeManifold(SimplicialComplex):
     def __init__(self, facets):
         SimplicialComplex.__init__(self, facets)
         # to do: code to check that link of each vertex is 2-sphere
+        
+    def get_degree(self, simplex):
+        return len(self.get_closed_star(simplex).facets)
+
 
     def __str__(self):
         return "3-manifold with facets: " + str(self.facets)
@@ -97,7 +99,8 @@ def main():
     
     print tm.get_closed_star(1)
     print tm.get_link(1)
-    print tm.get_simplices_of_dimension(0)
+    print tm.get_simplices_of_dimension(2)
+    print tm.get_degree(1)
 
     
     for v in vertices:
