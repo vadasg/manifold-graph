@@ -22,12 +22,14 @@
 #  
 #  
 
+import itertools
 import manifolds as mfld
-
-def get_faces(simplex):
-    if isinstance(simplex, (int, long)):
-        simplex = [simplex]
-    
+       
+def is_face_of(first_simplex, second_simplex):
+    for vertex in first_simplex:
+        if not vertex in second_simplex:
+            return False
+    return True
 
 class SimplicialComplex:
     '''This class represents a finite simplicial complex.
@@ -38,20 +40,35 @@ class SimplicialComplex:
     def __init__(self, facets):
         self.facets = facets
     
-    def get_star(self, simplex):
+    def get_closed_star(self, simplex):
         if isinstance(simplex, (int, long)):
             simplex = [simplex]
-        facets_in_star=[]
-        for facet in self.facets:
-            facet_in_star = True
-            for vertex in simplex:
-                if not vertex in facet:
-                    facet_in_star = False
-                    break
-            if facet_in_star:
-                facets_in_star.append(facet)
-        return facets_in_star
+        star = [f for f in self.facets if is_face_of(simplex, f)]
+        return SimplicialComplex(star)
         
+    def get_link(self, simplex):
+        if isinstance(simplex, (int, long)):
+            simplex = [simplex]
+        link = []
+        for facet in self.get_closed_star(simplex).facets:
+            new_facet = facet[:]
+            for vertex in simplex:
+                new_facet.remove(vertex)
+            link.append(new_facet)
+        return SimplicialComplex(link)
+        
+    def get_simplices_of_dimension(self, dim):
+        simplices = []
+        for facet in self.facets:
+            simplices += map(list, itertools.combinations(facet, dim+1))
+        return simplices
+    
+    def get_degree(self, simplex):
+        pass
+
+    def __str__(self):
+        return "Simplicial complex with facets: " + str(self.facets)
+
         
 class ThreeManifold(SimplicialComplex):
     '''This class represents a compact combinatorial 3-manifold.
@@ -63,39 +80,32 @@ class ThreeManifold(SimplicialComplex):
         SimplicialComplex.__init__(self, facets)
         # to do: code to check that link of each vertex is 2-sphere
 
+    def __str__(self):
+        return "3-manifold with facets: " + str(self.facets)
+        
 def main():
     sc = SimplicialComplex([[1,2],[2,3,4],[3,4,5]])
-    tm = ThreeManifold([[1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 4, 5],
-        [1, 3, 4, 5], [2, 3, 4, 6], [2, 3, 5, 7], [2, 3, 6, 7],
-        [2, 4, 5, 8], [2, 4, 6, 8], [2, 5, 7, 8], [2, 6, 7, 9],
-        [2, 6, 8, 9], [2, 7, 8, 9], [3, 4, 5, 10], [3, 4, 6, 10],
-        [3, 5, 7, 10], [3, 6, 7, 11], [3, 6, 10, 11], [3, 7, 10, 11],
-        [4, 5, 8, 10], [4, 6, 8, 12], [4, 6, 10, 12], [4, 8, 10, 12],
-        [5, 7, 8, 10], [6, 7, 9, 11], [6, 8, 9, 12], [6, 9, 11, 12],
-        [6, 10, 11, 12], [7, 8, 9, 13], [7, 8, 10, 13], [7, 9, 11, 13],
-        [7, 10, 11, 13], [8, 9, 12, 13], [8, 10, 12, 13],
-        [9, 11, 12, 14], [9, 11, 13, 14], [9, 12, 13, 14],
-        [10, 11, 12, 13], [11, 12, 13, 14]])
-    
-    print tm.get_star([2])
        
-    gh = mfld.graph_hash('manifold_graphs_small.dat',1)
-    gd = gh.graph_dictionary
-
-    manifold_id = 23
-    base_vertex = 1
-    
-    dists = gd[manifold_id][-1]
-    m = gh.manifolds[manifold_id - 1]
+    gh = mfld.graph_hash('manifold_graphs_tiny.dat',2)
+    gd = gh.graph_dictionary   
+    dists = gd[1][-1]
+    m = gh.manifolds[0]
+    tm = ThreeManifold(m)
     
     vertices = dists.keys()
-    print vertices
+    base_vertex = 1
+    
+    print tm.get_closed_star(1)
+    print tm.get_link(1)
+    print tm.get_simplices_of_dimension(0)
+
+    
     for v in vertices:
         d = dists[base_vertex][v]
-        lk = mfld.get_link(v, m)
+        lk = tm.get_link(v).facets
         lk_verts = mfld.get_vertices(lk)
         ds = [w for w in lk_verts if dists[base_vertex][w] < d]
-        print ds
+        #print ds
     return 0
 
 if __name__ == '__main__':

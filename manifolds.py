@@ -132,8 +132,7 @@ class graph_hash(object):
             dists = networkx.all_pairs_dijkstra_path_length(g)
             d = get_diameter_from_dists(dists)
             self.graph_dictionary[i+1] = (g,t,d,dists)
-            if t == 'L(4,1)':
-                print (i+1), t, pretty_print(d), self.manifolds[i]
+            print (i+1), t, pretty_print(d)
         return self.graph_dictionary
 
     def load_dictionary(self):
