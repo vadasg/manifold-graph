@@ -1,5 +1,29 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+#  manifolds.py
+#  
+#  Copyright 2012 Vadas Gintautas, Aaron Trout
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+# 
+
 import networkx, os
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import cPickle
 
 edge_weight = 1
@@ -15,7 +39,10 @@ class graph_hash(object):
     debug == 1: use the first 100 manifolds as a test set
     debug == 2: use 1 simple manifold as a test
     """
-    def __init__(self, graph_dictionary_file_name, debug = 0):
+    def __init__(self,graph_dictionary_file_name,debug = 0):
+    """
+    initialize object
+    """
 
         self.graph_dictionary_file_name = graph_dictionary_file_name
         self.debug = debug
@@ -405,7 +432,6 @@ def diameter_report(graph_hash):
         print str(d)[:4] + '\t' + pretty_print(d)\
             +' '*(9-len(pretty_print(d))), diameters.count(d)
 
-print __name__
 if __name__ == '__main__':
     h = graph_hash('manifold_graphs.dat',0)
     #h = graph_hash('manifold_graphs_small.dat',1)
