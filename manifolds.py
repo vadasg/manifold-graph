@@ -40,10 +40,8 @@ class graph_hash(object):
     debug == 2: use 1 simple manifold as a test
     """
     def __init__(self,graph_dictionary_file_name,debug = 0):
-    """
-    initialize object
-    """
-
+        """ initialize graph hash object 
+        """
         self.graph_dictionary_file_name = graph_dictionary_file_name
         self.debug = debug
         self.diameter_file_name = ('diameters_' 

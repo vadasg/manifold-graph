@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  discrete_morse.py
+#  untitled.py
 #  
 #  Copyright 2012 Aaron Trout, Vadas Gintautas
 #  
@@ -27,25 +27,6 @@ import manifolds as mfld
 
 ## {{{ http://code.activestate.com/recipes/52560/ (r1)
 def unique(s):
-    """Return a list of the elements in s, but without duplicates.
-
-    For example, unique([1,2,3,1,2,3]) is some permutation of [1,2,3],
-    unique("abcabc") some permutation of ["a", "b", "c"], and
-    unique(([1, 2], [2, 3], [1, 2])) some permutation of
-    [[2, 3], [1, 2]].
-
-    For best speed, all sequence elements should be hashable.  Then
-    unique() will usually work in linear time.
-
-    If not possible, the sequence elements should enjoy a total
-    ordering, and if list(s).sort() doesn't raise TypeError it's
-    assumed that they do enjoy a total ordering.  Then unique() will
-    usually work in O(N*log2(N)) time.
-
-    If that's not possible either, the sequence elements must support
-    equality-testing.  Then unique() will usually work in quadratic
-    time.
-    """
 
     n = len(s)
     if n == 0:
@@ -94,6 +75,7 @@ def unique(s):
             u.append(x)
     return u
 ## end of http://code.activestate.com/recipes/52560/ }}}
+
        
 def is_face_of(first_simplex, second_simplex):
     for vertex in first_simplex:
@@ -199,6 +181,7 @@ def main():
 
     for i in range(30):
         print tm.get_descending_link(i+1, dists[1])
+  
   
 if __name__ == '__main__':
     main()
