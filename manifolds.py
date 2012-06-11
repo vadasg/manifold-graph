@@ -150,7 +150,10 @@ class graph_hash(object):
         f.close()
         self.graph_dictionary = {}
         for i in range(len(self.manifolds)):
-            t = types[i].split()[-1]
+            if self.debug==2:
+                t = 'L(4,1)'
+            else:
+                t = types[i].split()[-1]
             manifold = self.manifolds[i]
             vertices,edges = get_graph(manifold)
             g = get_weighted_graph(manifold,vertices,edges)

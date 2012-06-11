@@ -23,19 +23,19 @@
 #  
 
 import itertools
-import manifolds as mfld
+from sage.all import *
+import manifolds
+
+triv_grp = SimplicialComplex(-1).homology()[0]
+
 
 ## {{{ http://code.activestate.com/recipes/52560/ (r1)
 def unique(s):
-
+    
     n = len(s)
     if n == 0:
         return []
 
-    # Try using a dict first, as that's the fastest and will usually
-    # work.  If it doesn't work, it will usually fail quickly, so it
-    # usually doesn't cost much to *try* it.  It requires that all the
-    # sequence elements be hashable, and support equality comparison.
     u = {}
     try:
         for x in s:
@@ -44,14 +44,6 @@ def unique(s):
         del u  # move on to the next method
     else:
         return u.keys()
-
-    # We can't hash all the elements.  Second fastest is to sort,
-    # which brings the equal elements together; then duplicates are
-    # easy to weed out in a single pass.
-    # NOTE:  Python's list.sort() was designed to be efficient in the
-    # presence of many duplicate elements.  This isn't true of all
-    # sort functions in all languages or libraries, so this approach
-    # is more effective in Python than it may be elsewhere.
     try:
         t = list(s)
         t.sort()
@@ -68,7 +60,6 @@ def unique(s):
             i += 1
         return t[:lasti]
 
-    # Brute force is all that's left.
     u = []
     for x in s:
         if x not in u:
@@ -76,113 +67,114 @@ def unique(s):
     return u
 ## end of http://code.activestate.com/recipes/52560/ }}}
 
-       
-def is_face_of(first_simplex, second_simplex):
-    for vertex in first_simplex:
-        if not vertex in second_simplex:
-            return False
-    return True
+def is_empty(simplicial_complex):
+    return simplicial_complex.facets() == SimplicialComplex(-1).facets()
 
-class SimplicialComplex:
-    '''This class represents a finite simplicial complex.\n'''
+def is_constant_simplex(simplex, vertex_order):
+    d_min = min([vertex_order[v] for v in simplex.tuple()])
+    d_max = max([vertex_order[v] for v in simplex.tuple()])
+    return d_min == d_max
+
+
+def descending_link(simplicial_complex, simplex, vertex_order):
+    lk = simplicial_complex.link(simplex)
+    verts = list(lk.effective_vertices().tuple())
+    d = min([vertex_order[v] for v in simplex.tuple()])
+    d_verts = [v for v in verts if vertex_order[v] < d]
+    if d_verts:
+        return lk.generated_subcomplex(d_verts)
+    else:
+        return SimplicialComplex(-1)
+
+def constant_complex(simplicial_complex, vertex_order):
+    facets = simplicial_complex.facets()
+    levels = sorted(unique(vertex_order.values()))
+     
+    constant_facets = []
+    for d in levels:
+        for f in facets:
+            constant_facet = []
+            for v in f:
+                if vertex_order[v] == d:
+                    constant_facet.append(v)
+            constant_facets.append(sorted(constant_facet))
     
-    def __init__(self, simplices):
-        self.facets = []
-        temp_simplices = unique(sorted(simplices))
-        for s in temp_simplices:
-            is_facet = True
-            for t in temp_simplices:
-                if s != t and is_face_of(s, t):
-                    is_facet = False
-            if is_facet:
-                self.facets.append(s)
-                    
-    def get_closed_star(self, simplex):
-        if isinstance(simplex, (int, long)):
-            simplex = [simplex]
-        star = [f for f in self.facets if is_face_of(simplex, f)]
-        return SimplicialComplex(star)
+    return SimplicialComplex(sorted(unique(constant_facets)))
+                   
         
-    def get_link(self, simplex):
-        if isinstance(simplex, (int, long)):
-            simplex = [simplex]
-        link = []
-        for facet in self.get_closed_star(simplex).facets:
-            new_facet = facet[:]
-            for vertex in simplex:
-                new_facet.remove(vertex)
-            link.append(new_facet)
-        return SimplicialComplex(link)
-        
-    def get_simplices_of_dimension(self, dim):
-        simplices = set()
-        for facet in self.facets:
-            s = set(itertools.combinations(facet, dim+1))
-            simplices = simplices.union(s)
-        return map(list, sorted(simplices))
+def same_homology(s1, s2):
+    if is_empty(s1) != is_empty(s2):
+        return False
+    #get symmetric difference in homology groups
+    diff = s1.homology().viewitems() ^ s2.homology().viewitems()
+    diff_grps = [hom_group for (dim, hom_group) in diff]
+    if not diff:
+        return True
+    else:
+        return unique(diff_grps) == [triv_grp]
+
+def descending_link_report(simplicial_complex, vertex_order):
+    const_complex = constant_complex(simplicial_complex, vertex_order)
+    facets = const_complex.facets()
+    # sage's cell dictionary has an unneeded final entry
+    dims = const_complex.cells().keys()[:-1]
+    point = SimplicialComplex([[1]])
+      
+    nontrivial_links = {}
+    for dim in dims:
+        nontrivial_links[dim] = []
+        for s in const_complex.cells()[dim]:
+            dl = descending_link(simplicial_complex, s, vertex_order)
+            if (is_empty(dl) or not same_homology(dl, point)):
+                nontrivial_links[dim].append((s,dl))
+
+    fmt_string = '  {0:20} {1:22} {2:22}'
     
-    def __str__(self):
-        return "Simplicial complex with facets: " + str(self.facets)
-
-    def get_descending_link(self, simplex, vertex_order):
-        if isinstance(simplex, (int, long)):
-            simplex = [simplex]
-        lk = self.get_link(simplex)
-        d = min([vertex_order[v] for v in simplex])
-        descending_link_facets = []
-        for facet in self.get_link(simplex).facets:
-            descending_facet = []
-            for vertex in facet:
-                if vertex_order[vertex] < d:
-                    descending_facet.append(vertex)
-            if descending_facet:
-                descending_link_facets.append(descending_facet)
-        return SimplicialComplex(descending_link_facets)
-        
-        
-        
-class ThreeManifold(SimplicialComplex):
-    '''This class represents a compact combinatorial 3-manifold.
-        
-    An object of this class represents a compact combinatorial
-    3-manifold with vertices given by integers.\n'''
+    print fmt_string.format('simplex', 
+                            'desc. link homology',
+                            'critical simplices')
+    print fmt_string.format('-'*20,'-'*22, '-'*22)
     
-    def __init__(self, facets):
-        SimplicialComplex.__init__(self, facets)
-        # to do: code to check that link of each vertex is 2-sphere
-        
-    def get_degree(self, simplex):
-        return len(self.get_closed_star(simplex).facets)
-
-
-    def __str__(self):
-        return "3-manifold with facets: " + str(self.facets)
-        
-def main():
-    sc = SimplicialComplex([[1,2],[2,3,4],[3,4,5]])
-       
-    gh = mfld.graph_hash('manifold_graphs_tiny.dat',2)
-    gd = gh.graph_dictionary   
-    dists = gd[1][-1]
-    m = gh.manifolds[0]
-    tm = ThreeManifold(m)
+    morse_complex = {0:0, 1:0, 2:0, 3:0}
+    for dim in nontrivial_links.keys():
+        for (s, lk) in sorted(nontrivial_links[dim]):
+            s_str = str(list(s.tuple()))
+            if is_empty(lk):
+                h_str = "link empty"
+                c_str = str({dim: 1})
+                morse_complex[dim] += 1
+            elif not same_homology(lk, point):
+                hom = lk.homology()
+                h_str = str(hom)
+                crit_simps = {}
+                for hom_dim in hom.keys():
+                    num_gens = hom[hom_dim].ngens()
+                    if hom[hom_dim].ngens() > 0:
+                        crit_simps[dim + hom_dim + 1] = num_gens
+                        morse_complex[dim + hom_dim + 1] += num_gens
+                c_str = str(crit_simps)
+            print fmt_string.format(s_str, h_str, c_str)
+    print '  discrete Morse complex: ' + str(morse_complex)
     
-    vertices = dists.keys()
-    base_vertex = 1
     
-    #print tm.get_closed_star(1)
-    #print tm.get_link(23)
-    #print tm.get_simplices_of_dimension(0)
-    #print tm.get_degree(1)
+def main():      
+    #g_hash = manifolds.graph_hash('manifold_graphs',0)
+    g_hash = manifolds.graph_hash('manifold_graphs_small',1)
+    #g_hash = manifolds.graph_hash('manifold_graphs_tiny',2)
+    g_dict = g_hash.graph_dictionary
+    
+    for (indx, m) in enumerate(g_hash.manifolds):
+        sc = SimplicialComplex(m)
+        dists = g_dict[indx+1][-1]
+        base_vertex = 1
+        dist_order = dists[base_vertex]
 
-    #print tm.get_descending_link(23, dists[1])
-    #print tm.get_descending_link(13, dists)
-    #print tm.get_descending_link(23, dists)
-
-    for i in range(30):
-        print tm.get_descending_link(i+1, dists[1])
-  
-  
+        top_type = str(g_dict[indx+1][1])
+        if top_type != 'S^3' or indx%4 == 0:
+            print ("manifold #" + str(indx+1) + ", top_type: " 
+                   + top_type + ", homology: " + str(sc.homology()))
+            descending_link_report(sc, dist_order)
+    
 if __name__ == '__main__':
     main()
 
