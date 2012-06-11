@@ -113,7 +113,9 @@ def same_homology(s1, s2):
     else:
         return unique(diff_grps) == [triv_grp]
 
-def descending_link_report(simplicial_complex, vertex_order):
+def descending_link_report(simplicial_complex,
+                           vertex_order,
+                           short_report = False):
     const_complex = constant_complex(simplicial_complex, vertex_order)
     facets = const_complex.facets()
     # sage's cell dictionary has an unneeded final entry
@@ -130,10 +132,11 @@ def descending_link_report(simplicial_complex, vertex_order):
 
     fmt_string = '  {0:20} {1:22} {2:22}'
     
-    print fmt_string.format('simplex', 
-                            'desc. link homology',
-                            'critical simplices')
-    print fmt_string.format('-'*20,'-'*22, '-'*22)
+    if not short_report:
+        print fmt_string.format('simplex', 
+                                'desc. link homology',
+                                'critical simplices')
+        print fmt_string.format('-'*20,'-'*22, '-'*22)
     
     morse_complex = {0:0, 1:0, 2:0, 3:0}
     for dim in nontrivial_links.keys():
@@ -153,16 +156,33 @@ def descending_link_report(simplicial_complex, vertex_order):
                         crit_simps[dim + hom_dim + 1] = num_gens
                         morse_complex[dim + hom_dim + 1] += num_gens
                 c_str = str(crit_simps)
-            print fmt_string.format(s_str, h_str, c_str)
+            if not short_report:
+                print fmt_string.format(s_str, h_str, c_str)
     print '  discrete Morse complex: ' + str(morse_complex)
     
-    
+    is_perfect = True
+    for cell_dim in morse_complex:
+        hom_gens = simplicial_complex.homology()[cell_dim].ngens()
+        if cell_dim == 0:
+            hom_gens += 1 #account for sage providing reduced homology
+        if morse_complex[cell_dim] !=  hom_gens:
+            is_perfect = False
+            break
+            
+    if is_perfect:
+        print "  PERFECT morse function produced."
+        return True
+    else:
+        print "  non-perfect morse function produces"
+        return False
+        
 def main():      
     #g_hash = manifolds.graph_hash('manifold_graphs',0)
     g_hash = manifolds.graph_hash('manifold_graphs_small',1)
     #g_hash = manifolds.graph_hash('manifold_graphs_tiny',2)
     g_dict = g_hash.graph_dictionary
     
+    num_perfects = 0
     for (indx, m) in enumerate(g_hash.manifolds):
         sc = SimplicialComplex(m)
         dists = g_dict[indx+1][-1]
@@ -170,11 +190,16 @@ def main():
         dist_order = dists[base_vertex]
 
         top_type = str(g_dict[indx+1][1])
-        if top_type != 'S^3' or indx%4 == 0:
-            print ("manifold #" + str(indx+1) + ", top_type: " 
-                   + top_type + ", homology: " + str(sc.homology()))
-            descending_link_report(sc, dist_order)
+        
+        print ("manifold #" + str(indx+1) + ", top_type: " 
+               + top_type + ", homology: " + str(sc.homology()))
+        if descending_link_report(sc, dist_order, short_report = True):
+            num_perfects += 1
     
+    print ("There were " + str(num_perfects) 
+           + " perfect DMFs produced, out of a total of " 
+           + str(len(g_hash.manifolds)) + " manifolds.")
+               
 if __name__ == '__main__':
     main()
 
