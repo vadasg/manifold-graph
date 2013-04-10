@@ -63,8 +63,67 @@ enormous amount of subsequent research (REFERENCES). In this paper, we will pres
 \section{Basic Stuff}
 \label{sect:basics}
 
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=0.6\linewidth]{figures/hops.pdf}
+        \caption{Hop diagram}
+    \end{center}
+\end{figure}
+
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=0.6\linewidth]{figures/jump.pdf}
+        \caption{Jump diagram}
+    \end{center}
+\end{figure}
+\section{Results}
+
+diameter statistics by topological type
+
+\begin{tabular} {| l l | l l | l l | l l | l l |}
+\hline
+\multicolumn{2}{|c|}{$S^{3}/Q$} &
+\multicolumn{2}{|c|}{$L(3,1)$} &
+\multicolumn{2}{|c|}{$RP^{3}$} &
+\multicolumn{2}{|c|}{$S^{3}$} &
+\multicolumn{2}{|c|}{$L(4,1)$} \\
+\hline
+\hline
+$1H$&1    &$2E$&1    &$1H$&10    &$1E$&3    &$1J$&1 \\
+  &       &$1J$&1    &$2E$&7     &$1H$&173  &    &  \\
+  &       &  &       &$1J$&5     &$2E$&401  &    &  \\
+  &       &  &       &    &      &$1J$&2438 &    &  \\
+  &       &  &       &    &      &$3E$&1060 &    &  \\
+  &       &  &       &    &      &$2H$&582  &    &  \\
+  &       &  &       &    &      &$4E$&93   &    &  \\
+  &       &  &       &    &      &$2J$&11   &    &  \\
+\hline
+\end{tabular}
+
+global diameter statistics by topological type
+
+\begin{tabular} {| l l |}
+\hline
+$1E$ &       3\\
+$1H$ &       184\\
+$2E$ &       409\\
+$1J$ &       2445\\
+$3E$ &       1060\\
+$2H$ &       582\\
+$4E$ &       93\\
+$2J$ &       11\\
+\hline
+\end{tabular}
+
+
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=0.6\linewidth]{figures/global_statistics.png}
+    \caption{Global statistics}
+    \end{center}
+\end{figure}
 
 \bibliographystyle{plain}
 \bibliography{manifolds}
-
 \end{document}
