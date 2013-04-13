@@ -14,6 +14,7 @@
 \newtheorem{prop}[thm]{Proposition}
 \newtheorem{cor}[thm]{Corollary}
 \newtheorem{conj}[thm]{Conjecture}
+\newtheorem{dfn}[thm]{Definition}
 
 \DeclareMathOperator{\id}{id}
 
@@ -46,36 +47,64 @@ Chatham University \\ Woodland Rd, Pittsburgh PA 15232 USA}
 
 \section{Introduction}
 
-Differential geometry is of central importance not only to geometers but also topologists, physicists and, increasingly, many of those interested in applied topics such as finite element analysis REFERENCE and computer graphics REFERENCE. One new offshoot in this area is {\em discrete differential geometry} (DDG) which seeks discrete analogs to the classical theorems and concepts from differential geometry. Since many way computational treatments of differential geometry involve discretizing shapes, this subject has particular relevance for those with applied interests REFERECE. Other recent DDG work can be found in \cite{BMM,Crowley,EMM,forman2,GGL1,GGL2,GGL3,LS,stone}. 
+Differential geometry is of central importance not only to geometers but also topologists, physicists and, increasingly, many of those interested in applied topics such as finite element analysis and computer graphics. One new offshoot in this area is {\em discrete differential geometry} (DDG) which seeks discrete analogues to the classical theorems and concepts from differential geometry. Since many computational treatments of differential geometry involve discretizing shapes, this subject has particular relevance for those with applied interests \cite{grinspun2006discrete}. Other recent DDG work can be found in \cite{BMM,Crowley,EMM,forman2,GGL1,GGL2,GGL3,stone}. 
 
 A particularly important goal in classical differential geometry is to elucidate the relationship between the curvature of a Riemannian (or semi-Riemannian) space and its topology. The classical
 results in this area are numerous, beautiful, and have inspired an
-enormous amount of subsequent research (REFERENCES). In this paper, we will present a discrete analog of the ``generalized'' sphere theorem of Grove and Shiohama \cite{groveshiohama}.
+enormous amount of subsequent research. In this paper, we will present a discrete analogue of the ``generalized'' sphere theorem of Grove and Shiohama \cite{groveshiohama}.
 
 \begin{thm}[Grove-Shiohama] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with section curvature $K \geq \delta > 0$ and $diam(M) > \frac{\pi}{2\sqrt{\delta}}$. Then, $M$ is homeomorphic to a sphere.
+\label{Grove-Shiohama}
 \end{thm}
 
-\noindent Note that the diameter bound in this theorem is exacly half that allowed by the Bonnet-Myers theorem:
+\noindent Note that the diameter bound in this theorem is exactly half that allowed by the Bonnet-Myers theorem:
 
 \begin{thm}[Bonnet-Myers] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with section curvature $K \geq \delta > 0$. Then $diam(M) \leq \frac{\pi}{\sqrt{\delta}}$.
 \end{thm}
 
+\noindent Our results are derived from brute-force checking of a combinatorial 3-manifold census created by Lutz and Sullivan \cite{LS}.
+
 \section{Basic Stuff}
 \label{sect:basics}
+
+The discrete version of Theorem \ref{Grove-Shiohama} given in this paper will apply to positively curved combinatorial 3-manifolds. A {\em combinatorial 3-manifold} is an abstract simplicial complex in which the link of each vertex is a 2-sphere. We call such a space {\em positively curved} if at most five tetrahedra are incident along each edge. Why this terminology? If we endow a combinatorial 3-manifold with the standard piecewise-linear (PL) metric (in which all edges have unit-length), this condition is equivalent to requiring an angle deficit along each edge. In classical differential geometry an angle deficit is intimately related to positive curvature.
+
+Probably the most natural discrete definition of distance in an abstract simplicial complexe is given in terms of edge paths.
+
+\begin{dfn}The {\em edge-distance} between two vertices $v$ and $w$ in an abstract simplicial complex $M$ is the minimum number of edges needed in an edge path from $v$ to $w$. We denote this by $d_1(v,w)$. The {\em edge-diameter} of $M$, written as $diam_1(M)$, is the maximum of $d_1(v,w)$ over all pairs of vertices $v$ and $w$ in $M$. 
+\end{dfn}
+
+\noindent Previous work \cite{Trout10} has already demonstrated a discrete version of the Bonnet-Myers theorem which applies to positively curved combinatorial 3-manifolds and which uses these notions of distance and diameter.
+
+\begin{thm}[Trout] A positively curved combinatorial 3-manifold $M$ has edge-diameter at most five.
+\label{discrete_BM}
+\end{thm}
+
+While Theorem \ref{discrete_BM} is stated in terms of edge-diameter, the proof is greatly facilitated by expanding the set of paths under consideration to include paths containing not only edges, but PL-paths between vertices called {\em hops} and {\em jumps}.
+
+\begin{dfn}[Jumps] Suppose there are edges $e_1$ and $e_2$ and vertices $v_1$ and $v_2$ in $M$ so that $e_1*e_2$ is a 3-simplex in $M$ and $v_1*e_1$ and $v_2*e_2$ are 2-simplices in $M$. We call the PL-path from $v_1$ through the barycenters of $e_1$ and $e_2$ and ending on $v_2$ a {\em jump} from $v_1$ to $v_2$. See Figure \ref{jump_fig}.
+\end{dfn}
+
+\begin{dfn}[Hops] Suppose $\tau$ is a 2-simplex in $M$ and $v_1$ and $v_2$ vertices in $M$ such that $v_1*\tau$ and $v_2*\tau$ are 3-simplices in $M$. The PL-path from $v_1$ through the barycenter of $\tau$ and ending on $v_2$ will be called a {\em hop} from $v_1$ to $v_2$. See Figure \ref{hop_fig}.
+\end{dfn}
+
+
 
 \begin{figure}
     \begin{center}
         \includegraphics[width=0.6\linewidth]{figures/hops.pdf}
-        \caption{Hop diagram}
+        \caption{A {\em hop} from vertex $v_1$ to vertex $v_2$, transverse to the 2-simplex $\tau$ TO DO: CROP OUT LEFT IMAGE}
     \end{center}
+    \label{hop_fig}
 \end{figure}
 
 
 \begin{figure}
     \begin{center}
-        \includegraphics[width=0.6\linewidth]{figures/jump.pdf}
-        \caption{Jump diagram}
+        \includegraphics[width=0.4\linewidth]{figures/jump.pdf}
+        \caption{A {\em jump} from vertex $v_1$ to vertex $v_2$, transverse to the edges $e_1$ and $e_2$}
     \end{center}
+    \label{jump_fig}
 \end{figure}
 \section{Results}
 
