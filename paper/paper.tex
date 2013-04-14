@@ -41,13 +41,13 @@ Chatham University \\ Woodland Rd, Pittsburgh PA 15232 USA}
 \maketitle
 
 \begin{abstract}
-  This paper presents a discrete version of Grove and Shiohama's generalized sphere theorem \cite{groveshiohama}.
+  This paper presents a discrete version of Grove and Shiohama's generalized sphere theorem \cite{groveshiohama}. 
 \end{abstract}
 
 
 \section{Introduction}
 
-Differential geometry is of central importance not only to geometers but also topologists, physicists and, increasingly, many of those interested in applied topics such as finite element analysis and computer graphics. One new offshoot in this area is {\em discrete differential geometry} (DDG) which seeks discrete analogues to the classical theorems and concepts from differential geometry. Since many computational treatments of differential geometry involve discretizing shapes, this subject has particular relevance for those with applied interests \cite{grinspun2006discrete}. Other recent DDG work can be found in \cite{BMM,Crowley,EMM,forman2,GGL1,GGL2,GGL3,stone}. 
+Differential geometry is of central importance not only to geometers but also topologists, physicists and, increasingly, many of those interested in applied topics such as finite element analysis and computer graphics. One new offshoot in this area is {\em discrete differential geometry} (DDG) which seeks discrete analogues to the classical theorems and concepts from differential geometry. Since many computational treatments of differential geometry involve discretizing shapes, this subject has particular relevance for those with applied interests, see \cite{grinspun2006discrete} for example. Other recent DDG work with a more pure-mathematics flavor can be found in \cite{BMM,Crowley,EMM,forman2,GGL1,GGL2,GGL3,stone}. 
 
 A particularly important goal in classical differential geometry is to elucidate the relationship between the curvature of a Riemannian (or semi-Riemannian) space and its topology. The classical
 results in this area are numerous, beautiful, and have inspired an
@@ -57,7 +57,7 @@ enormous amount of subsequent research. In this paper, we will present a discret
 \label{thm:grove_shiohama}
 \end{thm}
 
-\noindent Note that this bound is sharp, since the real projective space $\mathbb{RP}^n$ admits a metric with uniform sectional curvature $K=1$ and diameter $\pi/2$. We should also note also that the diameter bound in Theorem \ref{thm:gove_shiohama} is exactly half the maximum diameter allowed by the Bonnet-Myers theorem:
+\noindent Note that this bound is sharp, since the real projective space $\mathbb{RP}^n$ admits a metric with uniform sectional curvature $K=1$ and diameter $\pi/2$. We should also note also that the diameter bound in Theorem \ref{thm:grove_shiohama} is exactly half the maximum diameter allowed by the Bonnet-Myers theorem:
 
 \begin{thm}[Bonnet-Myers] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with section curvature $K \geq \delta > 0$. Then the diameter of $M$ is at most $\frac{\pi}{\sqrt{\delta}}$.
 \label{thm:bonnet_myers}
@@ -70,7 +70,7 @@ enormous amount of subsequent research. In this paper, we will present a discret
 
 The discrete version of Theorem \ref{thm:grove_shiohama} given in this paper will apply to positively curved combinatorial 3-manifolds. A {\em combinatorial 3-manifold} is an abstract simplicial complex in which the link of each vertex is a 2-sphere. We call such a space {\em positively curved} if at most five tetrahedra are incident along each edge. Why this terminology? If we endow a combinatorial 3-manifold with the standard piecewise-linear (PL) metric (in which all edges have unit-length), this condition is equivalent to requiring an angle deficit along each edge. In classical differential geometry an angle deficit is intimately related to positive curvature.
 
-Probably the most natural discrete definition of distance in an abstract simplicial complexe is given in terms of edge paths.
+Probably the most natural discrete definition of distance in an abstract simplicial complex is given in terms of edge paths.
 
 \begin{dfn}The {\em edge-distance} between two vertices $v$ and $w$ in an abstract simplicial complex $M$ is the minimum length, in edges, of an edge path from $v$ to $w$. We denote this quantity $d_1(v,w)$. The {\em edge-diameter} of $M$, written as $diam_1(M)$, is the maximum of $d_1(v,w)$ over all pairs of vertices $v$ and $w$ in $M$. 
 \end{dfn}
