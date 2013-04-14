@@ -129,18 +129,17 @@ From the proof of Theorem \ref{thm:discrete_BM} in \cite{Trout10}, we have the f
 
 \noindent This is essentially Theorem \ref{thm:discrete_BM} stated in terms of our new expanded set of paths. It is this result which we will consider our ``discrete Bonnet-Myers'' theorem.
 
-\section{Results}
+\section{Main Results}
+
 We are now finally able to state our main result, which shows that any positively curved 3-manifold with diameter larger than half that allowed by Corollary \ref{thm:discrete_BM_expanded_paths}.
 
-\begin{thm} Any positively curved combinatorial 3-manifold $M$ with $diam(M)>J$ is homeomorphic to the 3-sphere.
+\begin{thm} Any positively curved combinatorial 3-manifold $M$ with $diam(M)>J$ is homeomorphic to the 3-sphere. This bound is sharp, and equal to half the maximum diameter which occurs for any such $M$.
 \label{thm:discrete_GS}
 \end{thm}
 
+\noindent The proof of this result relies on a complete census of positively curved combinatorial 3-manifolds completed by Lutz and Sullivan. The census contains 4787 manifolds and contains examples of the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$ and the cube space $S^3/Q$. The creation of such a census is a highly non-trivial task, for details see \cite{LutzSul}.
 
-
-
-
-diameter statistics by topological type
+Here is a table of the number of triangulations in the census at each topological type and diameter.\vspace{.1in}
 
 \begin{tabular} {| l l | l l | l l | l l | l l |}
 \hline
@@ -160,9 +159,9 @@ $1H$&1    &$2E$&1    &$1H$&10    &$1E$&3    &$1J$&1 \\
   &       &  &       &    &      &$4E$&93   &    &  \\
   &       &  &       &    &      &$2J$&11   &    &  \\
 \hline
-\end{tabular}
+\end{tabular}\vspace{.1in}
 
-global diameter statistics by topological type
+\noindent Here is a table of the number of triangulations at each diameter. \vspace{.1in}
 
 \begin{tabular} {| l l |}
 \hline
@@ -185,6 +184,10 @@ $2J$ &       11\\
     \end{center}
     \label{global_statistics}
 \end{figure}
+
+
+\section{Algorithm Used}
+
 
 \bibliographystyle{plain}
 \bibliography{manifolds}
