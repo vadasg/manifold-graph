@@ -65,7 +65,7 @@ enormous amount of subsequent research. In this paper, we will present a discret
 
 \noindent Our results are derived from brute-force checking of a combinatorial 3-manifold census created by Lutz and Sullivan \cite{LS}.
 
-\section{Basic Stuff}
+\section{Preliminaries}
 \label{sect:basics}
 
 The discrete version of Theorem \ref{thm:grove_shiohama} given in this paper will apply to positively curved combinatorial 3-manifolds. A \textbf{combinatorial 3-manifold} $M$ is an abstract simplicial complex in which the link of each vertex is a 2-sphere. We call such a space \textbf{positively curved} if at most five tetrahedra are incident along each edge. Why this terminology? If we endow $M$ with the standard piecewise-linear (PL) metric in which all edges have unit-length, this condition is equivalent to requiring an angle deficit along each edge. In classical differential geometry an angle deficit is intimately related to positive curvature.
@@ -131,13 +131,13 @@ From the proof of Theorem \ref{thm:discrete_BM} in \cite{Trout10}, we have the f
 
 \section{Main Results}
 
-We are now finally able to state our main result, which shows that any positively curved 3-manifold with diameter larger than half that allowed by Corollary \ref{thm:discrete_BM_expanded_paths}.
+We are now able to state our main result.
 
 \begin{thm} Any positively curved combinatorial 3-manifold $M$ with $diam(M)>J$ is homeomorphic to the 3-sphere. This bound is sharp, and equal to half the maximum diameter which occurs for any such $M$.
 \label{thm:discrete_GS}
 \end{thm}
 
-\noindent The proof of this result relies on a complete census of positively curved combinatorial 3-manifolds completed by Lutz and Sullivan. The census contains 4787 manifolds and contains examples of the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$ and the cube space $S^3/Q$. The creation of such a census is a highly non-trivial task, for details see \cite{LutzSul}.
+\noindent The proof of this theorem relies on a complete census of positively curved combinatorial 3-manifolds completed by Lutz and Sullivan. The census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$ and the cube space $S^3/Q$. The creation of such a census is a highly non-trivial task, for details see \cite{LutzSul}.
 
 Here is a table of the number of triangulations in the census at each topological type and diameter.\vspace{.1in}
 
@@ -180,7 +180,7 @@ $2J$ &       11\\
 \begin{figure}
     \begin{center}
     \includegraphics[width=0.6\linewidth]{figures/global_statistics.png}
-    \caption{Global statistics}
+    \caption{Global statistics. TO DO: Change diameter labels to $1, H, 2, J, 3, 2H, 4, 2J$ and put these on horizontal axis. TO DO: Change graph to show separate data points for each topological type. }
     \end{center}
     \label{global_statistics}
 \end{figure}
@@ -188,6 +188,18 @@ $2J$ &       11\\
 
 \section{Algorithm Used}
 
+TO DO: Give a brief description of the algorithm used.
+
+\section{Discussion}
+
+TO DO: Discuss the big picture stuff concerning adding possible PL paths between vertices. Mention the benefits of hops and jumps not mentioned here (unique continuation of minimal paths) 
+
+We should mention another notable advantage of expanding the space of paths to include hops and edges. In classical differential geometry, the starting point, the initial direction, and length completely determine a geodesic. There is no branching of geodesics. This property of fundamental importance to many proofs in Riemannian geometry. If we use only edge-paths, then in a positively curved combinatorial 3-manifold it is possible to have two minimal paths with the same length and which begin by traversing the same edge, yet reach distinct destination vertices. That is, using only edge paths, minimal geodesics can ``branch''.
+
+This important property is restored if we include hops and edges. In \cite{Trout10} the following is shown.
+
+\begin{thm}
+\end{thm}
 
 \bibliographystyle{plain}
 \bibliography{manifolds}
