@@ -59,7 +59,7 @@ enormous amount of subsequent research. In this paper, we will present a discret
 
 \noindent Note that this bound is sharp, since the real projective space $\mathbb{RP}^n$ admits a metric with uniform sectional curvature $K=1$ and diameter $\pi/2$. We should also note also that the diameter bound in Theorem \ref{thm:grove_shiohama} is exactly half the maximum diameter allowed by the Bonnet-Myers theorem:
 
-\begin{thm}[Bonnet-Myers] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with section curvature $K \geq \delta > 0$. Then the diameter of $M$ is at most $\frac{\pi}{\sqrt{\delta}}$.
+\begin{thm}[Bonnet-Myers] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with sectional curvature $K \geq \delta > 0$. Then the diameter of $M$ is at most $\frac{\pi}{\sqrt{\delta}}$.
 \label{thm:bonnet_myers}
 \end{thm}
 
@@ -70,7 +70,7 @@ enormous amount of subsequent research. In this paper, we will present a discret
 
 The discrete version of Theorem \ref{thm:grove_shiohama} given in this paper will apply to positively curved combinatorial 3-manifolds. A \textbf{combinatorial 3-manifold} $M$ is an abstract simplicial complex in which the link of each vertex is a 2-sphere. We call such a space \textbf{positively curved} if at most five tetrahedra are incident along each edge. Why this terminology? If we endow $M$ with the standard piecewise-linear (PL) metric in which all edges have unit-length, this condition is equivalent to requiring an angle deficit along each edge. In classical differential geometry an angle deficit is intimately related to positive curvature.
 
-A very natural discrete definition of distance in an abstract simplicial complex uses \textbf{edge-paths}. That is, paths entirely contained in the 1-skeleton of $M$.
+A very natural discrete definition of distance in an abstract simplicial complex uses \textbf{edge-paths}. That is, paths entirely contained in the 1-skeleton of $M$. Let $\mathcal{P}_1$ denote the set of all edge-paths on $M$.
 
 \begin{dfn}The \textbf{edge-distance} between two vertices $v$ and $w$ in an abstract simplicial complex $M$ is the minimum length (as a PL-path in the standard PL-metric) of an edge-path from $v$ to $w$. We denote this quantity $d_1(v,w)$. The \textbf{edge-diameter} of $M$, written as $diam_1(M)$, is the maximum of $d_1(v,w)$ over all pairs of vertices $v$ and $w$ in $M$. 
 \end{dfn}
@@ -112,22 +112,22 @@ The first new type of path is called a {\em hop}.
     \end{center}
 \end{figure}
 
-\noindent Just as for edges in an edge-path, the length of each hop and jump will be its length as a PL-path in the standard PL metric. Some basic Euclidean geometry tells us these lengths are $H = \frac{2}{3}\sqrt{2}$ and $J = \frac{1}{2}\sqrt{2} + \sqrt{3}$ respectively. We let $d(v,w)$ denote the \textbf{distance between vertices $v$ and $w$} obtained by minimizing over all paths containing edges as well as hops and jumps. Similarly, we let $diam(M)$ denote the \textbf{diameter of $M$} defined in terms of the distance function $d$.
+\noindent Just as for edges in an edge-path, the length of each hop and jump will be its length as a PL-path in the standard PL metric. Some Euclidean geometry tells us these lengths are \begin{equation} \label{eqn:jump_length} H = \frac{2}{3}\sqrt{2} \end{equation} and \begin{equation} \label{eqn:jump_length} J = \frac{1}{2}\sqrt{2} + \sqrt{3} \end{equation} respectively. We let $d(v,w)$ denote the \textbf{distance between vertices $v$ and $w$} obtained by minimizing over all paths containing edges as well as hops and jumps. Similarly, we let $diam(M)$ denote the \textbf{diameter of $M$} defined in terms of the distance function $d$. Let $\mathcal{P}$ denote the set of all the paths containing edges, hops or jumps.
 
-Why are these paths relevant to this paper? The classical generalized sphere theorem requires the manifold to have diameter more than half the maximum allowed by the classical Bonnet-Myers theorem. If we were to naively imitate the classical results in the discrete setting, from Theorem \ref{thm:discrete_BM} we would want the bound $diam_1(M)>\frac{5}{2}$. Since only integral values of edge-distance can occur, this would correspond to $diam_1(M)\geq 3$. Unfortunately, there are positively curved combinatorial 3-manifolds with edge-diameter three that are not homeomorphic to the 3-sphere. In particular, there exists positively curved triangulations of $\mathbb{RP}^3$ with edge-diameter three. However, if we instead use the finer-grained measure of diameter, $diam(M)$ this problem disappears and the discrete results again mirror the classical ones.
+Why are these paths relevant to this paper? In the classical setting, the generalized sphere theorem requires a manifold to have diameter more than half the maximum allowed by the Bonnet-Myers theorem, and this diameter bound cannot be improved. If we naively imitate the classical results in the discrete setting, from Theorem \ref{thm:discrete_BM} we would want to assume the bound $diam_1(M)>\frac{5}{2}$. Unfortunately, there are positively curved combinatorial 3-manifolds with edge-diameter three that are not homeomorphic to the 3-sphere. In particular, as we will see, $\mathbb{RP}^3$ has positively curved triangulations with edge-diameter three. However, if we instead use the finer-grained measure of diameter, $diam(M)$, the problem disappears and the discrete results mirror the classical ones exactly. That is, we can prove a discrete version of the generalized sphere theorem with a diameter bound exactly half the maximum allowed by the corresponding discrete Bonnet-Myers theorem.
 
-From the proof of Theorem \ref{thm:discrete_BM} in \cite{Trout10}, we have the following bound on the possible distances which occur in a positively curved 3-manifold.
+What is the discrete Bonnet-Myers theorem corresponding to Theorem \ref{thm:discrete_BM} but which uses $diam(M)$? From the proof of Theorem \ref{thm:discrete_BM} in \cite{Trout10}, we have the following bound on the possible distances which occur in a positively curved 3-manifold.
 
 \begin{lem}[Trout] If $v$ and $w$ are vertices in a positively curved combinatorial 3-manifold $M$ then $d(v,w) \in \{0, 1, H, 2, J, 3, 2H, 4, 2J \}$.
 \end{lem}
 
-\noindent Note that we have listed the possible distances in increasing numerical order. This result implies a diameter bound, which is known to be sharp by results in \cite{Trout10}.
+\noindent Note that we have listed the possible distances in increasing numerical order. This result implies the desired discrete Bonnet-Myers type theorem.
 
 \begin{thm} If $M$ is a positively curved combinatorial 3-manifold then $diam(M) \leq 2J$.
 \label{thm:discrete_BM_expanded_paths}
 \end{thm}
 
-\noindent This is essentially Theorem \ref{thm:discrete_BM} stated in terms of our new expanded set of paths. It is this result which we will consider our ``discrete Bonnet-Myers'' theorem.
+\noindent Note, it is shown in \cite{Trout10} that this diameter bound is sharp.
 
 \section{Main Results}
 
@@ -137,7 +137,7 @@ We are now able to state our main result.
 \label{thm:discrete_GS}
 \end{thm}
 
-\noindent The proof of this theorem relies on a complete census of positively curved combinatorial 3-manifolds completed by Lutz and Sullivan. The census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$ and the cube space $S^3/Q$. The creation of such a census is a highly non-trivial task, for details see \cite{LutzSul}.
+\noindent The proof of this theorem relies on a complete census of positively curved combinatorial 3-manifolds completed by Lutz and Sullivan. The census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. The creation of such a census is a highly non-trivial task, for details see \cite{LutzSul}.
 
 Here is a table of the number of triangulations in the census at each topological type and diameter.\vspace{.1in}
 
@@ -196,9 +196,9 @@ TO DO: Discuss the big picture stuff concerning adding possible PL paths between
 
 We should mention another notable advantage of expanding the space of paths to include hops and edges. In classical differential geometry, the starting point, the initial direction, and length completely determine a geodesic. There is no branching of geodesics. This property of fundamental importance to many proofs in Riemannian geometry. If we use only edge-paths, then in a positively curved combinatorial 3-manifold it is possible to have two minimal paths with the same length and which begin by traversing the same edge, yet reach distinct destination vertices. That is, using only edge paths, minimal geodesics can ``branch''.
 
-This important property is restored if we include hops and edges. In \cite{Trout10} the following is shown.
+This important property is restored if we include hops and jumps. In \cite{Trout10} the following is shown.
 
-\begin{thm}
+\begin{thm}(Unique Extension) If two paths $P_1$ and $P_2$ in $\mathcal{P}$ pass through the same first two simplices of $M$ and have the same length, then $P_1 = P_2$. This result is false if $\mathcal{P}$ is replaced by $\mathcal{P}_1$.
 \end{thm}
 
 \bibliographystyle{plain}
