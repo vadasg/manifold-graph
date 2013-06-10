@@ -116,12 +116,12 @@ Why are these paths relevant to this paper? In the classical setting, the genera
 
 What is the discrete Bonnet-Myers theorem corresponding to Theorem \ref{thm:discrete_BM} but which uses $diam(M)$? From the proof of Theorem \ref{thm:discrete_BM} in \cite{Trout10}, we have the following bound on the possible distances which occur in a positively curved 3-manifold.
 
-\begin{lem}[Trout] If $v$ and $w$ are vertices in a positively curved combinatorial 3-manifold $M$ then $d(v,w) \in \{0, 1, H, 2, J, 3, 2H, 4, 2J \}$.
+\begin{lem}[Trout] If $v$ and $w$ are vertices in a connected positively curved combinatorial 3-manifold $M$ then $d(v,w) \in \{0, 1, H, 2, J, 3, 2H, 4, 2J \}$.
 \end{lem}
 
 \noindent Note that we have listed the possible distances in increasing numerical order. This result implies the desired discrete Bonnet-Myers type theorem.
 
-\begin{thm}[Trout] For any positively curved combinatorial 3-manifold $M$ we have $diam(M) \leq 2J$.
+\begin{thm}[Trout] For any connected positively curved combinatorial 3-manifold $M$ we have $diam(M) \leq 2J$.
 \label{thm:discrete_BM_expanded_paths}
 \end{thm}
 
@@ -135,9 +135,9 @@ We are now able to state our main result.
 \label{thm:discrete_GS}
 \end{thm}
 
-\noindent The proof of this theorem relies on the remarkable work of Lutz, Sullivan and Sulanke in \cite{Lutz07, LutzSul_unpub, sulanke2009isomorphism} who created a complete census of positively curved combinatorial 3-manifolds along with a list of their topological types, see \cite{Lutz_online_manifolds} and \cite{Lutz_online_topological_types}. This census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. Note that all manifolds are either homeomorphic to a 3-sphere or to the quotient space of a 3-sphere under the action of a finite group. 
+\noindent The proof of this theorem relies on the remarkable work of Lutz, Sullivan and Sulanke in \cite{Lutz07, LutzSul_unpub, sulanke2009isomorphism} who created a complete census of positively curved combinatorial 3-manifolds along with a list of their topological types, see \cite{Lutz_online_manifolds} and \cite{Lutz_online_topological_types}. This census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. Note that all of these manifolds are homeomorphic to either a 3-sphere or to the quotient space of a 3-sphere under the action of a finite group. 
 
-Here is a table of the number of triangulations in the census at each topological type and diameter.
+A small Python program was created to examine each manifold in the census and compute its diameter. See Figure \ref{fig:global_statistics} for a plot of the number of manifolds by topological type and diameter. Note that, as claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:global_statistics_edges}. 
 
 \begin{figure}
 \centering
@@ -162,11 +162,9 @@ Total&1 &1 &2 &22   &4761   &4787  \\
 \label{fig:manifold_counts}
 \end{figure}
 
-\noindent Compare this table with the corresponding counts indexed by the coarser {\em edge-diameter}.
-
 \begin{figure}
 \centering
-\begin{tabular} {| r | r | r | r | r | r | r |}
+\begin{tabular} {| r | r | r | r | r | r | r |}	
 \hline
 Diameter & $S^{3}/Q$ & $L(4,1)$ & $L(3,1)$ & $RP^{3}$ & $S^{3}$ & Total \\
 \hline
@@ -181,17 +179,24 @@ Total&1 &1 &2 &22   &4761   &4787  \\
 \hline
 \end{tabular}
 \caption{The positively curved combinatorial 3-manifolds by edge-diameter and topological type}
-\label{fig:manifold_counts}
+\label{fig:manifold_counts_edges}
 \end{figure}
 
 \begin{figure}
     \begin{center}
     \includegraphics[width=0.6\linewidth]{figures/global_statistics.png}
-    \caption{Global statistics. TO DO: CHANGE DIAMETER LABELS TO $1, H, 2, J, 3, 2H, 4, 2J$ AND PUT THESE ON HORIZONTAL AXIS. TO DO: CHANGE GRAPH TO SHOW SEPARATE DATA POINTS FOR EACH TOPOLOGICAL TYPE. TO DO: CREATE ANOTHER GRAPH WITH JUST EDGE DIAMETER COUNTS, WHERE THE CORRESPONDENCE BETWEEN DIAMETER(s) AND EDGE-DIAMETER IS $0\rightarrow 0, 1\rightarrow 1, \{H, 2\}\rightarrow 2, \{J,3\}\rightarrow 3, 4\rightarrow 4, 2J\rightarrow 5$}
+    \caption{Global statistics. TO DO: CHANGE DIAMETER LABELS TO $1, H, 2, J, 3, 2H, 4, 2J$ AND PUT THESE ON HORIZONTAL AXIS. TO DO: CHANGE GRAPH TO SHOW SEPARATE DATA POINTS FOR EACH TOPOLOGICAL TYPE. TO DO: CREATE ANOTHER GRAPH WITH JUST EDGE DIAMETER COUNTS}
     \end{center}
-    \label{global_statistics}
+    \label{fig:global_statistics}
 \end{figure}
 
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=0.6\linewidth]{figures/global_statistics.png}
+    \caption{...TO DO}
+    \end{center}
+    \label{fig:global_statistics_edges}
+\end{figure}
 
 \section{Algorithm Used}
 
