@@ -137,7 +137,24 @@ We are now able to state our main result.
 
 \noindent The proof of this theorem relies on the remarkable work of Lutz, Sullivan and Sulanke in \cite{Lutz07, LutzSul_unpub, sulanke2009isomorphism} who created a complete census of positively curved combinatorial 3-manifolds along with a list of their topological types, see \cite{Lutz_online_manifolds} and \cite{Lutz_online_topological_types}. This census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. Note that all of these manifolds are homeomorphic to either a 3-sphere or to the quotient space of a 3-sphere under the action of a finite group. 
 
-A small Python program was created to examine each manifold in the census and compute its diameter. See Figure \ref{fig:global_statistics} for a plot of the number of manifolds by topological type and diameter. Note that, as claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:global_statistics_edges}. 
+A small Python program was created to examine each manifold in the census and compute its diameter. See Figure \ref{fig:global_statistics} for a plot of the number of manifolds by topological type and diameter. As claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:global_statistics_edges}. Note that there are $3$-manifolds homeomor
+
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=0.6\linewidth]{figures/global_statistics.png}
+    \caption{Global statistics. TO DO: CHANGE DIAMETER LABELS TO $1, H, 2, J, 3, 2H, 4, 2J$ AND PUT THESE ON HORIZONTAL AXIS. TO DO: CHANGE GRAPH TO SHOW SEPARATE DATA POINTS FOR EACH TOPOLOGICAL TYPE. TO DO: CREATE ANOTHER GRAPH WITH JUST EDGE DIAMETER COUNTS}
+    \end{center}
+    \caption{TO DO: ADD CAPTION}
+    \label{fig:global_statistics}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=0.6\linewidth]{figures/global_statistics.png}
+    \end{center}
+    \caption{TO DO: ADD CAPTION}
+    \label{fig:global_statistics_edges}
+\end{figure}
 
 \begin{figure}
 \centering
@@ -182,29 +199,13 @@ Total&1 &1 &2 &22   &4761   &4787  \\
 \label{fig:manifold_counts_edges}
 \end{figure}
 
-\begin{figure}
-    \begin{center}
-    \includegraphics[width=0.6\linewidth]{figures/global_statistics.png}
-    \caption{Global statistics. TO DO: CHANGE DIAMETER LABELS TO $1, H, 2, J, 3, 2H, 4, 2J$ AND PUT THESE ON HORIZONTAL AXIS. TO DO: CHANGE GRAPH TO SHOW SEPARATE DATA POINTS FOR EACH TOPOLOGICAL TYPE. TO DO: CREATE ANOTHER GRAPH WITH JUST EDGE DIAMETER COUNTS}
-    \end{center}
-    \label{fig:global_statistics}
-\end{figure}
-
-\begin{figure}
-    \begin{center}
-    \includegraphics[width=0.6\linewidth]{figures/global_statistics.png}
-    \caption{...TO DO}
-    \end{center}
-    \label{fig:global_statistics_edges}
-\end{figure}
-
 \section{Algorithm Used}
 
 TO DO: BRIEF DISCUSSION OF ALGORITHM USED
 
 \section{Discussion}
+Why does adding additional paths above and beyond edge-paths restore the classical structure to our proof?
 
-TO DO: BIG PICTURE STUFF ABOUT EXTENDIND EDGE PATHS. WHY DOES IT HELP? CAN WE USE IT TO DO OTHER NICE THINGS? INCORPORATE FOLLOWING STUFF INTO DISCUSSION ...
 
 We should mention another notable advantage of expanding the space of paths to include hops and edges. In classical differential geometry, the starting point, the initial direction, and length completely determine a geodesic. There is no branching of geodesics. This property of fundamental importance to many proofs in Riemannian geometry. If we use only edge-paths, then in a positi`vely curved combinatorial 3-manifold it is possible to have two minimal paths with the same length and which begin by traversing the same edge, yet reach distinct destination vertices. That is, using only edge paths, minimal geodesics can ``branch''.
 
