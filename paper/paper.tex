@@ -93,8 +93,8 @@ The first new type of path is called a {\em hop}.
 
 \begin{figure}
 	\centering
-		\includegraphics[width=0.23\linewidth]{figures/hops.pdf}
-    \caption{A {\em hop} from vertex $v_1$ to vertex $v_2$.}
+		\includegraphics[width=0.28\linewidth]{figures/hops.pdf}
+    \caption{A {\em hop} from vertex $v_1$ to vertex $v_2$}
     	\label{fig:hop}
 \end{figure}
 
@@ -105,12 +105,12 @@ The first new type of path is called a {\em hop}.
 
 \begin{figure}
 	\centering
-		\includegraphics[width=0.30\linewidth]{figures/jump.pdf}
+		\includegraphics[width=0.36\linewidth]{figures/jump.pdf}
     \caption{A {\em jump} from vertex $v_1$ to vertex $v_2$}
     \label{fig:jump}
 \end{figure}
 
-Just as for edges in an edge-path, the length of each hop and jump will be its length as a PL-path in the standard PL metric. Some Euclidean geometry tells us these lengths are \begin{equation} \label{eqn:jump_length} H = \frac{2}{3}\sqrt{2} \end{equation} and \begin{equation} \label{eqn:jump_length} J = \frac{1}{2}\sqrt{2} + \sqrt{3} \end{equation} respectively. We let $d(v,w)$ denote the \textbf{distance between vertices $v$ and $w$} obtained by minimizing over all paths containing edges as well as hops and jumps. Similarly, we let $diam(M)$ denote the \textbf{diameter of $M$} defined in terms of the distance function $d$. Let $\mathcal{P}$ denote the set of all the paths containing edges, hops or jumps.
+Just as for edges in an edge-path, the length of each hop and jump will be its length as a PL-path in the standard PL metric. Some Euclidean geometry tells us these lengths are \begin{equation} \label{eqn:hop_length} H = \frac{2}{3}\sqrt{2} \end{equation} and \begin{equation} \label{eqn:jump_length} J = \frac{1}{2}\sqrt{2} + \sqrt{3} \end{equation} respectively. We let $d(v,w)$ denote the \textbf{distance between vertices $v$ and $w$} obtained by minimizing over all paths containing edges as well as hops and jumps. Similarly, we let $diam(M)$ denote the \textbf{diameter of $M$} defined in terms of the distance function $d$. Let $\mathcal{P}$ denote the set of all the paths containing edges, hops or jumps.
 
 Why are these paths relevant to this paper? In the classical setting, the generalized sphere theorem requires a manifold to have diameter more than half the maximum allowed by the Bonnet-Myers theorem, and this diameter bound cannot be improved. If we naively imitate the classical results in the discrete setting, from Theorem \ref{thm:discrete_BM} we would want to assume the bound $diam_1(M)>\frac{5}{2}$. Unfortunately, there are positively curved combinatorial 3-manifolds with edge-diameter three that are not homeomorphic to the 3-sphere. In particular, as we will see, $\mathbb{RP}^3$ has positively curved triangulations with edge-diameter three. However, if we instead use the finer-grained measure of diameter, $diam(M)$, the problem disappears and the discrete results mirror the classical ones exactly. That is, we can prove a discrete version of the generalized sphere theorem with a diameter bound exactly half the maximum allowed by the corresponding discrete Bonnet-Myers theorem.
 
@@ -137,80 +137,62 @@ We are now able to state our main result.
 
 \noindent The proof of this theorem relies on the remarkable work of Lutz, Sullivan and Sulanke in \cite{Lutz07, LutzSul_unpub, sulanke2009isomorphism} who created a complete census of positively curved combinatorial 3-manifolds along with a list of their topological types, see \cite{Lutz_online_manifolds} and \cite{Lutz_online_topological_types}. This census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. Note that all of these manifolds are homeomorphic to either a 3-sphere or to the quotient space of a 3-sphere under the action of a finite group. 
 
-A small Python program was created to examine each manifold in the census and compute its diameter. See Figure \ref{fig:global_statistics} for a plot of the number of manifolds by topological type and diameter. As claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:global_statistics_edges}. Note that there are $3$-manifolds homeomor
+A small Python program was created to examine each manifold in the census and compute its diameter. See Figure \ref{fig:type_statistics} for a plot of the number of manifolds by topological type and diameter. As claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:type_statistics_edges}. Note the existence of $3$-manifolds with edge-diameter greater than half the maximum allowed edge-diameter and which are {\em not} homeomorphic to the 3-sphere. In particular, there are positively curved combinatorial 3-manifolds homeomorphic to $\mathbb{RP}^3$, $L(3,1)$ and $L(4,1)$ which have edge-diameter three.
 
 \begin{figure}
     \begin{center}
-    \includegraphics[width=0.6\linewidth]{figures/global_statistics.png}
+    {
+	    \setlength\fboxsep{10pt}
+		\setlength\fboxrule{0pt}
+		\fbox{\includegraphics[width=0.75\linewidth]{figures/split_statistics.png}}
+    }
+    \begin{tabular} {| r | r | r | r | r | r | r |}
+		\hline
+		Diameter & $S^{3}/Q$ & $L(4,1)$ & $L(3,1)$ & $RP^{3}$ & $S^{3}$ & Total \\
+		\hline
+		\hline
+		$1$&  &  &  &   &3    & 3    \\
+		$H$&1 &  &  &10 &173  & 184  \\
+		$2$&  &  &1 &7  &401  & 409  \\
+		$J$&  &1 &1 &5  &2438 & 2445 \\
+		$3$&  &  &  &   &1060 & 1060 \\
+		$2H$&  &  &  &   &582  & 582  \\
+		$4$&  &  &  &   &93   & 93   \\
+		$2J$&  &  &  &   &11   & 11   \\
+		\hline
+		Total&1 &1 &2 &22   &4761   &4787  \\
+		\hline
+	\end{tabular}
     \end{center}
-    \caption{Distribution of diameters.}
-    \label{fig:global_statistics}
-\end{figure}
-
-\begin{figure}
-    \begin{center}
-    \includegraphics[width=0.6\linewidth]{figures/split_statistics.png}
-    \end{center}
-    \caption{Distribution of diameters for each type.}
+    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and diameter, displayed graphically (above) and in table form (below)}
     \label{fig:type_statistics}
 \end{figure}
 
-
-
 \begin{figure}
     \begin{center}
-    \includegraphics[width=0.6\linewidth]{figures/edge_diameters.png}
+    {
+	    \setlength\fboxsep{10pt}
+		\setlength\fboxrule{0pt}
+		\fbox{\includegraphics[width=0.75\linewidth]{figures/edge_diameters.png}}
+    }
+	\begin{tabular} {| r | r | r | r | r | r | r |}	
+		\hline
+		Edge-Diameter & $S^{3}/Q$ & $L(4,1)$ & $L(3,1)$ & $RP^{3}$ & $S^{3}$ & Total \\
+		\hline
+		\hline
+		$1$ &  &  &  &   &3    & 3    \\
+		$2$ & 1&  &1 &17 &574  & 593  \\
+		$3$ &  &1 &1 &5  &3498 & 3505 \\
+		$4$ &  &  &  &   &675  & 675   \\
+		$5$ &  &  &  &   &11   & 11   \\
+		\hline
+		Total&1 &1 &2 &22   &4761   &4787  \\
+		\hline
+	\end{tabular}
     \end{center}
-    \caption{Distribution of diameters when only edges are considered, without hops or jumps.}
-    \label{fig:global_statistics_edges}
+    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and edge-diameter, displayed graphically (above) and in table form (below)}
+	\label{fig:type_statistics_edges}
 \end{figure}
-
-\begin{figure}
-\centering
-\begin{tabular} {| r | r | r | r | r | r | r |}
-\hline
-Diameter & $S^{3}/Q$ & $L(4,1)$ & $L(3,1)$ & $RP^{3}$ & $S^{3}$ & Total \\
-\hline
-\hline
-$1$&  &  &  &   &3    & 3    \\
-$H$&1 &  &  &10 &173  & 184  \\
-$2$&  &  &1 &7  &401  & 409  \\
-$J$&  &1 &1 &5  &2438 & 2445 \\
-$3$&  &  &  &   &1060 & 1060 \\
-$2H$&  &  &  &   &582  & 582  \\
-$4$&  &  &  &   &93   & 93   \\
-$2J$&  &  &  &   &11   & 11   \\
-\hline
-Total&1 &1 &2 &22   &4761   &4787  \\
-\hline
-\end{tabular}
-\caption{The positively curved combinatorial 3-manifolds by diameter and topological type}
-\label{fig:manifold_counts}
-\end{figure}
-
-\begin{figure}
-\centering
-\begin{tabular} {| r | r | r | r | r | r | r |}	
-\hline
-Diameter & $S^{3}/Q$ & $L(4,1)$ & $L(3,1)$ & $RP^{3}$ & $S^{3}$ & Total \\
-\hline
-\hline
-$1$ &  &  &  &   &3    & 3    \\
-$2$ & 1&  &1 &17 &574  & 593  \\
-$3$ &  &1 &1 &5  &3498 & 3505 \\
-$4$ &  &  &  &   &675  & 675   \\
-$5$ &  &  &  &   &11   & 11   \\
-\hline
-Total&1 &1 &2 &22   &4761   &4787  \\
-\hline
-\end{tabular}
-\caption{The positively curved combinatorial 3-manifolds by edge-diameter and topological type}
-\label{fig:manifold_counts_edges}
-\end{figure}
-
-\section{Algorithm Used}
-
-TO DO: BRIEF DISCUSSION OF ALGORITHM USED
 
 \section{Discussion}
 Why does adding additional paths above and beyond edge-paths restore the classical structure to our proof?
