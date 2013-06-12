@@ -27,16 +27,15 @@ fig_size=(csize,csize*1.618)
 
 fig = pylab.figure()
 
-fig.subplots_adjust(top=0.95,bottom=0.10,left=0.10,right=0.93,hspace=0.35,wspace=0.2)
+fig.subplots_adjust(top=0.95,bottom=0.1,left=0.10,right=0.93,hspace=0.35,wspace=0.2)
 
 # this is plot 1 with Procut orange data
 
 
 ax = fig.add_subplot(1,1,1)
 
-diameters = [ 1, 1.63, 2, 2.43, 3, 3.26, 4, 4.87 ]
-steps =[ '1', 'H', '2', 'J', '3', '2H', '4', '2J   ' ]
-counts = [ 3, 184, 409, 2445, 1060, 582, 93, 11 ] 
+diameters = [ 1, 2, 3, 4, 5 ]
+steps =[ '1', '2', '3', '4', '5' ]
 types = [ '$S^{3}/Q$',  '$L(4,1)$' ,'$L(3,1)$' ,'$RP^{3}$' ,'$S^{3}$' ]
 markers = ['ko','wo','bx','bo','ro']
 msdef = 9
@@ -44,37 +43,31 @@ markersizes = [msdef,msdef,12,msdef,msdef]
 mewdef = 1
 markeredgewidths = [mewdef,mewdef,1.1,mewdef,mewdef]
 
+
 countd = {}
-countd[ '$S^{3}/Q$'] = [ 0, 1, 0, 0, 0, 0, 0, 0 ]
-countd[ '$L(4,1)$' ] = [ 0, 0, 0, 1, 0, 0, 0, 0 ]
-countd[ '$L(3,1)$' ] = [ 0, 0, 1, 1, 0, 0, 0, 0 ]
-countd[ '$RP^{3}$' ] = [ 0,10, 7, 5, 0, 0, 0, 0 ]
-countd[ '$S^{3}$'  ]  = [ 3, 173, 401, 2438, 1060, 582, 93, 11 ]
-
-#$1$ &  &  &  &   &3    & 3    \\
-#$2$ & 1&  &1 &17 &574  & 593  \\
-#$3$ &  &1 &1 &5  &3498 & 3505 \\
-#$4$ &  &  &  &   &675  & 675   \\
-#$5$ &  &  &  &   &11   & 11   \\
-#Total&1 &1 &2 &22   &4761   &4787  \\
-
-
+countd[ '$S^{3}/Q$'] = [ 0, 1, 0, 0, 0]
+countd[ '$L(4,1)$' ] = [ 0, 0, 0, 1, 0]
+countd[ '$L(3,1)$' ] = [ 0, 0, 1, 1, 0]
+countd[ '$RP^{3}$' ] = [ 0,17, 5, 0, 0]
+countd[ '$S^{3}$'  ] = [ 3, 574, 3498, 675, 11 ]
 
 
 #ax.plot(diameters,counts,'k--',alpha=0.5)
-for d,c,s in zip(diameters,counts,steps):
+for d,c,s in zip(diameters,countd[ '$S^{3}$'  ],steps):
     ax.plot([d,d],[0.7,c],'k--')
 
 for t,m,ms,mew in zip(types,markers,markersizes,markeredgewidths):
 
     ax.semilogy(diameters,countd[t],m,ms=ms,mew=mew,label=t)
 
-ax.set_xlabel('Diameter')
+ax.set_xlabel('Diameter with only Edges')
+#ax.xaxis.set_label_coords(0.5, -0.12)
 ax.set_ylabel('Count (log scale)')
-ax.set_xticks([0] + diameters + [5,6])
+ax.set_xticks([0] + diameters + [6])
 #ax.set_yticks(yt)
-ax.set_xticklabels(['0'] +  steps + [' 5','6'] , horizontalalignment='center')
-ax.axis([0,6,0.7,numpy.max(counts)*5])
+ax.set_xticklabels( ['0','1','2','3','4','5','6'], horizontalalignment='center')
+a=ax.axis([0,6,0.7,3498*5])
+
 ax.legend(numpoints=1)
 
 
@@ -82,5 +75,5 @@ ax.legend(numpoints=1)
 
 
 
-pylab.savefig('./paper/figures/split_statistics.png', dpi=300)
+pylab.savefig('./paper/figures/split_edge_diameters.png', dpi=300)
 pylab.show()
