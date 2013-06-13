@@ -41,7 +41,7 @@ Chatham University \\ Woodland Rd, Pittsburgh PA 15232 USA}
 \maketitle
 
 \begin{abstract}
-The generalized sphere theorem of Grove and Shiohama is a central result in the differential geometry of positively curved manifolds. It shows that if $M$ is a Riemannian manifold whose sectional curvature is everywhere greater than a positive constant and $M$ has diameter greater than half the maximum allowed by the Bonnet-Myers theorem, then $M$ must be homeomorphic to a sphere. In this paper, we present a novel discrete version of this theorem which applies to positively curved {\em combinatorial} 3-manifolds. That is, those for which at most five tetrahedra are incident at each edge. In the standard piecewise-linear metric, this bound is equivalent to requiring an angle deficit along each edge. Such spaces have been studied previously and found to satisfy a beautiful discrete version of the Bonnet-Myers theorem. Here we prove a corresponding {\em discrete} generalized sphere theorem using a complete census of positively curved 3-manifolds completed by Lutz and Sullivan.
+The generalized sphere theorem of Grove and Shiohama is an important result in the differential geometry of positively curved manifolds. It shows that if $M$ is a Riemannian manifold whose sectional curvature is everywhere greater than a positive constant and $M$ has diameter greater than half the maximum allowed by the Bonnet-Myers theorem, then $M$ must be homeomorphic to a sphere. In this paper, we present a novel discrete version of this theorem which applies to positively curved {\em combinatorial} 3-manifolds. That is, those with at most five tetrahedra incident at each edge, or equivalently, those with an angle deficit at each edge in the standard piecewise-linear metric. Such spaces have been studied previously and found to satisfy a beautiful discrete version of the Bonnet-Myers theorem. Here we prove the corresponding {\em discrete} generalized sphere theorem using a complete census of the positively curved 3-manifolds completed by Lutz and Sullivan.
 \end{abstract}
 
 
@@ -83,9 +83,9 @@ A discrete version of the Bonnet-Myers theorem was previously proved in \cite{Tr
 \label{thm:discrete_BM}
 \end{thm}
 
-\noindent Interestingly, while the statement of Theorem \ref{thm:discrete_BM} uses edge-diameter, its proof relies on expanding the set of paths under consideration to include those which contain not only edges, but also other types of PL-paths between vertices.
+\noindent Interestingly, while the statement of Theorem \ref{thm:discrete_BM} uses edge-diameter, its proof relies on expanding the set of paths under consideration to include those which contain not only edges, but also other types of PL-paths between vertices. In this work, this enlarged set of paths will be crucial to obtaining a discrete result fully analogous to the classical generalized sphere theorem.
 
-\subsection{Hops and Jumps}
+\section{Hops and Jumps}
 The first new type of path is called a {\em hop}.
 
 \begin{dfn}[Hops] Suppose $\tau$ is a 2-simplex in $M$ and $v_1$ and $v_2$ are vertices in $M$ such that $v_1*\tau$ and $v_2*\tau$ are 3-simplices in $M$. The PL-path from $v_1$ through the barycenter of $\tau$ and ending on $v_2$ will be called a \textbf{hop} from $v_1$ to $v_2$. See Figure \ref{fig:hop} for an illustration.
@@ -137,15 +137,16 @@ We are now able to state our main result.
 
 \noindent The proof of this theorem relies on the remarkable work of Lutz, Sullivan and Sulanke in \cite{Lutz07, LutzSul_unpub, sulanke2009isomorphism} who created a complete census of positively curved combinatorial 3-manifolds along with a list of their topological types, see \cite{Lutz_online_manifolds} and \cite{Lutz_online_topological_types}. This census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. Note that all of these manifolds are homeomorphic to either a 3-sphere or to the quotient space of a 3-sphere under the action of a finite group. 
 
-A small Python program was created to examine each manifold in the census and compute its diameter. See Figure \ref{fig:type_statistics} for a plot of the number of manifolds by topological type and diameter. As claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:type_statistics_edges}. Note the existence of $3$-manifolds with edge-diameter greater than half the maximum allowed edge-diameter and which are {\em not} homeomorphic to the 3-sphere. In particular, there are positively curved combinatorial 3-manifolds homeomorphic to $\mathbb{RP}^3$, $L(3,1)$ and $L(4,1)$ which have edge-diameter three.
+A small Python program (available on request) was created to examine each manifold in the census and compute its diameter and edge-diameter. See Figure \ref{fig:type_statistics} for a plot of the number of manifolds by topological type and diameter. As claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:type_statistics_edges}. Note the existence of $3$-manifolds with edge-diameter greater than half the maximum allowed edge-diameter and which are {\em not} homeomorphic to the 3-sphere. However, we still have the following:
 
 \begin{figure}
     \begin{center}
     {
-	    \setlength\fboxsep{10pt}
+	    \setlength\fboxsep{15pt}
 		\setlength\fboxrule{0pt}
-		\fbox{\includegraphics[width=0.75\linewidth]{figures/split_statistics.png}}
+		\fbox{\includegraphics[width=0.9\linewidth]{figures/split_statistics.png}}
     }
+    	\renewcommand{\arraystretch}{1.2}
     \begin{tabular} {| r | r | r | r | r | r | r |}
 		\hline
 		Diameter & $S^{3}/Q$ & $L(4,1)$ & $L(3,1)$ & $RP^{3}$ & $S^{3}$ & Total \\
@@ -164,17 +165,18 @@ A small Python program was created to examine each manifold in the census and co
 		\hline
 	\end{tabular}
     \end{center}
-    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and diameter, displayed graphically (above) and in table form (below)}
+    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and diameter, displayed graphically (above) and in table form (below). Note that all manifolds with diameter greater than half the maximum are 3-spheres. Results were computed using a 3-manifold census created by Lutz and Sullivan \cite{LutzSul_unpub}.}
     \label{fig:type_statistics}
 \end{figure}
 
 \begin{figure}
     \begin{center}
     {
-	    \setlength\fboxsep{10pt}
+	    \setlength\fboxsep{15pt}
 		\setlength\fboxrule{0pt}
-		\fbox{\includegraphics[width=0.75\linewidth]{figures/split_edge_diameters.png}}
+		\fbox{\includegraphics[width=0.9\linewidth]{figures/split_statistics.png}}
     }
+    \renewcommand{\arraystretch}{1.2}
 	\begin{tabular} {| r | r | r | r | r | r | r |}	
 		\hline
 		Edge-Diameter & $S^{3}/Q$ & $L(4,1)$ & $L(3,1)$ & $RP^{3}$ & $S^{3}$ & Total \\
@@ -190,12 +192,12 @@ A small Python program was created to examine each manifold in the census and co
 		\hline
 	\end{tabular}
     \end{center}
-    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and edge-diameter, displayed graphically (above) and in table form (below)}
+    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and edge-diameter, displayed graphically (above) and in table form (below). Note that when diameters are measured in edges, there are manifolds with diameter greater than half the maximum which are {\em not} 3-spheres. Results were computed using a 3-manifold census created by Lutz and Sullivan \cite{LutzSul_unpub}.}
 	\label{fig:type_statistics_edges}
 \end{figure}
 
 \section{Discussion}
-Why does adding additional paths above and beyond edge-paths restore the classical structure to our proof?
+In the classical version of the generalized sphere theorem, the diameter bound is sharp and exactly half the maximum diameter allowed by the classical Bonnet-Myers theorem. In the discrete setting discussed in this paper, we have seen that this relationship between diameter bounds cannot be maintained if distances are measured by edge-paths. However, if we expand the set of paths to include hops and jumps then we can prove a discrete generalized sphere theorem using a sharp diameter bound exactly half that of our discrete Bonnet-Myers theorem.
 
 
 We should mention another notable advantage of expanding the space of paths to include hops and edges. In classical differential geometry, the starting point, the initial direction, and length completely determine a geodesic. There is no branching of geodesics. This property of fundamental importance to many proofs in Riemannian geometry. If we use only edge-paths, then in a positi`vely curved combinatorial 3-manifold it is possible to have two minimal paths with the same length and which begin by traversing the same edge, yet reach distinct destination vertices. That is, using only edge paths, minimal geodesics can ``branch''.
