@@ -41,7 +41,7 @@ Chatham University \\ Woodland Rd, Pittsburgh PA 15232 USA}
 \maketitle
 
 \begin{abstract}
-The generalized sphere theorem of Grove and Shiohama is a central result in the differential geometry of positively curved manifolds. It shows that if $M$ is a Riemannian manifold whose sectional curvature is everywhere greater than a positive constant and $M$ has diameter greater than half the maximum allowed by the Bonnet-Myers theorem, then $M$ must be homeomorphic to a sphere. In this paper, we present a novel discrete version of this theorem which applies to positively curved {\em combinatorial} 3-manifolds. That is, those for which at most five tetrahedra are incident at each edge. In the standard piecewise-linear metric, this bound is equivalent to requiring an angle deficit along each edge. Such spaces have been studied previously and found to satisfy a beautiful discrete version of the Bonnet-Myers theorem. Here we prove a corresponding {\em discrete} generalized sphere theorem using a complete census of positively curved 3-manifolds completed by Lutz and Sullivan.
+The generalized sphere theorem of Grove and Shiohama is an important result in the differential geometry of positively curved manifolds. It shows that if $M$ is a Riemannian manifold whose sectional curvature is everywhere greater than a positive constant and $M$ has diameter greater than half the maximum allowed by the Bonnet-Myers theorem, then $M$ must be homeomorphic to a sphere. In this paper, we present a novel discrete version of this theorem which applies to positively curved {\em combinatorial} 3-manifolds. That is, those with at most five tetrahedra incident at each edge, or equivalently, those with an angle deficit at each edge in the standard piecewise-linear metric. Such spaces have been studied previously and found to satisfy a beautiful discrete version of the Bonnet-Myers theorem. Here we prove the corresponding {\em discrete} generalized sphere theorem using a complete census of the positively curved 3-manifolds completed by Lutz and Sullivan.
 \end{abstract}
 
 
@@ -142,10 +142,11 @@ A small Python program was created to examine each manifold in the census and co
 \begin{figure}
     \begin{center}
     {
-	    \setlength\fboxsep{10pt}
+	    \setlength\fboxsep{15pt}
 		\setlength\fboxrule{0pt}
-		\fbox{\includegraphics[width=0.75\linewidth]{figures/split_statistics.png}}
+		\fbox{\includegraphics[width=0.9\linewidth]{figures/split_statistics.png}}
     }
+    	\renewcommand{\arraystretch}{1.2}
     \begin{tabular} {| r | r | r | r | r | r | r |}
 		\hline
 		Diameter & $S^{3}/Q$ & $L(4,1)$ & $L(3,1)$ & $RP^{3}$ & $S^{3}$ & Total \\
@@ -164,17 +165,18 @@ A small Python program was created to examine each manifold in the census and co
 		\hline
 	\end{tabular}
     \end{center}
-    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and diameter, displayed graphically (above) and in table form (below)}
+    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and diameter, displayed graphically (above) and in table form (below). Note that all manifolds with diameter greater than half the maximum are 3-spheres. Results were computed using a 3-manifold census created by Lutz and Sullivan \cite{LutzSul_unpub}.}
     \label{fig:type_statistics}
 \end{figure}
 
 \begin{figure}
     \begin{center}
     {
-	    \setlength\fboxsep{10pt}
+	    \setlength\fboxsep{15pt}
 		\setlength\fboxrule{0pt}
-		\fbox{\includegraphics[width=0.75\linewidth]{figures/split_edge_diameters.png}}
+		\fbox{\includegraphics[width=0.9\linewidth]{figures/split_statistics.png}}
     }
+    \renewcommand{\arraystretch}{1.2}
 	\begin{tabular} {| r | r | r | r | r | r | r |}	
 		\hline
 		Edge-Diameter & $S^{3}/Q$ & $L(4,1)$ & $L(3,1)$ & $RP^{3}$ & $S^{3}$ & Total \\
@@ -190,7 +192,7 @@ A small Python program was created to examine each manifold in the census and co
 		\hline
 	\end{tabular}
     \end{center}
-    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and edge-diameter, displayed graphically (above) and in table form (below)}
+    \caption{Number of connected positively curved combinatorial 3-manifolds by topology and edge-diameter, displayed graphically (above) and in table form (below). Note that when diameters are measured in edges, there are manifolds with diameter greater than half the maximum which are {\em not} 3-spheres. Results were computed using a 3-manifold census created by Lutz and Sullivan \cite{LutzSul_unpub}.}
 	\label{fig:type_statistics_edges}
 \end{figure}
 
