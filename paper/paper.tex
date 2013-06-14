@@ -202,12 +202,16 @@ If one absolutely insists on results stated in terms of edge-diameter then the c
 \end{figure}
 
 \section{Discussion}
-We should mention another notable advantage of expanding the space of paths to include hops and edges. In classical differential geometry, the starting point, the initial direction, and length completely determine a geodesic. There is no branching of geodesics. This property of fundamental importance to many proofs in Riemannian geometry. If we use only edge-paths, then in a positi`vely curved combinatorial 3-manifold it is possible to have two minimal paths with the same length and which begin by traversing the same edge, yet reach distinct destination vertices. That is, using only edge paths, minimal geodesics can ``branch''.
+We should mention another notable advantage of expanding the space of paths to include hops and edges. In classical differential geometry, a geodesic segment is completely determined by its the starting point, initial direction, and length. There is no ``branching'' of geodesics on a Riemannian manifold. Indeed, this property is of fundamental importance to constructing many arguments in this area. However in the discrete setting, if we use only edge-paths then this valuable characteristic does not hold. It is possible to have two minimal edge-paths with the same length and which begin by traversing the same edge, yet reach distinct destination vertices.
 
-This important property is restored, at least for positively curved manifolds, if we include hops and jumps. In \cite{Trout10} the following is shown.
+To see this, consider a combinatorial 3-manifold $M$ containing a minimal jump from vertex $v$ to vertex $w$ passing through edges $e_1$ and $e_2$ (as seen in Figure \ref{fig:jump}.) Using the structure of a jump, we will construct two edge-paths starting at $v$. We choose the first edge from $v$ to some vertex in $e_1$ and then we can continue the path to either of the vertices in $e_2$. The resulting paths, $Q_1$ and $Q_2$, must be minimal among edge-paths. If they were not, then their endpoints would be connected by an edge and a two-edge path from $v$ to $w$ would exist, contradicting the minimality of the jump. Thus $Q_1$ and $Q_2$ provide examples of minimal edge-paths which ``branch''.
+
+The non-branching property of minimal paths is restored, at least for positively curved manifolds, if we include hops and jumps. See \cite{Trout10}. In particular we have:
 
 \begin{thm}(Unique Extension) If two minimal paths $P_1$ and $P_2$ in $\mathcal{P}$ pass through the same first two simplices of a positively curved 3-manifold $M$ and $P_1$ and $P_2$ have the same length, then $P_1 = P_2$. This result is false if $\mathcal{P}$ is replaced by $\mathcal{P}_1$.
 \end{thm}
+
+\noindent It is not surprising that the 
 
 \bibliographystyle{plain}
 \bibliography{manifolds}
