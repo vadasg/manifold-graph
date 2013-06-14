@@ -46,8 +46,8 @@ markeredgewidths = [mewdef,mewdef,1.1,mewdef,mewdef]
 
 countd = {}
 countd[ '$S^{3}/Q$'] = [ 0, 1, 0, 0, 0]
-countd[ '$L(4,1)$' ] = [ 0, 0, 0, 1, 0]
-countd[ '$L(3,1)$' ] = [ 0, 0, 1, 1, 0]
+countd[ '$L(4,1)$' ] = [ 0, 0, 1, 0, 0]
+countd[ '$L(3,1)$' ] = [ 0, 1, 1, 0, 0]
 countd[ '$RP^{3}$' ] = [ 0,17, 5, 0, 0]
 countd[ '$S^{3}$'  ] = [ 3, 574, 3498, 675, 11 ]
 
@@ -60,7 +60,7 @@ for t,m,ms,mew in zip(types,markers,markersizes,markeredgewidths):
 
     ax.semilogy(diameters,countd[t],m,ms=ms,mew=mew,label=t)
 
-ax.set_xlabel('Diameter with only Edges')
+ax.set_xlabel('Edge-Diameter')
 #ax.xaxis.set_label_coords(0.5, -0.12)
 ax.set_ylabel('Count (log scale)')
 ax.set_xticks([0] + diameters + [6])
