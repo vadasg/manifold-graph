@@ -39,5 +39,5 @@ fout = open('./paper/bigtable.tex','w')
 
 head = '$N$ & $t$ & $d$ &' * N
 for i in raw:
-    fout.write(i.replace(r'\begin{deluxetable}{'+'l'*N+'}',r'\begin{deluxetable}{'+'|lll|'*N+'}').replace('$ $','$ & $').replace(r'\tablecolumns{'+str(N)+'}',r'\tablecolumns{'+str(N*3)+'}').replace(' $',' & $',1).replace(r'\colhead{HEAD} & \colhead{HEAD} & \colhead{HEAD} & \colhead{HEAD} & \colhead{HEAD}',head[:-1] ))
+    fout.write(i.replace(r'\begin{deluxetable}{'+'l'*N+'}',r'\begin{deluxetable}{'+'|llr|'*N+'}').replace('$ $','$ & $').replace(r'\tablecolumns{'+str(N)+'}',r'\tablecolumns{'+str(N*3)+'}').replace(' $',' & $',1).replace(r'\colhead{HEAD} & \colhead{HEAD} & \colhead{HEAD} & \colhead{HEAD} & \colhead{HEAD}',head[:-1] ))
 fout.close()
