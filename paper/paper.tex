@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
+\usepackage{deluxetable}             
 \usepackage{graphicx}              % to include figures
 \usepackage{amsmath}               % great math stuff
 \usepackage{amsfonts}              % for blackboard bold, etc
@@ -47,10 +48,10 @@ The generalized sphere theorem of Grove and Shiohama is an important result in t
 
 \section{Introduction}
 
-Differential geometry is of central importance not only to geometers but also topologists, physicists and, increasingly, many of those interested in applied topics such as finite element analysis and computer graphics. One new offshoot in this area is {\em discrete differential geometry} (DDG) which seeks discrete analogues to the classical theorems and concepts from differential geometry. Since many computational treatments of differential geometry involve discretizing shapes, this subject has particular relevance for those with applied interests, see \cite{grinspun2006discrete} for examples. Other recent DDG work with a more pure-mathematics flavor can be found in \cite{BMM,Crowley,EMM,forman2,GGL1,GGL2,GGL3,stone}. 
+Differential geometry is of central importance not only to geometers but also topologists, physicists and, increasingly, many of those interested in applied topics such as finite element analysis and computer graphics. One significant offshoot in this area is {\em discrete differential geometry} (DDG) which seeks discrete analogues to the classical theorems and concepts from differential geometry. Since many computational treatments of differential geometry involve discretizing shapes, this subject has particular relevance for those with applied interests, see \cite{grinspun2006discrete} for examples. Other recent DDG work with a more pure-mathematics flavor can be found in \cite{BMM,Crowley,EMM,forman2,GGL1,GGL2,GGL3,stone}. 
 
 A particularly important goal in classical differential geometry is to elucidate the relationship between the curvature of a Riemannian (or semi-Riemannian) space and its topology. The classical
-results in this area are numerous, beautiful, and have inspired an
+results in this area are numerous, elegant, and have inspired an
 enormous amount of subsequent research. In this paper, we will present a discrete analogue of the ``generalized'' sphere theorem of Grove and Shiohama \cite{groveshiohama}.
 
 \begin{thm}[Grove-Shiohama] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with section curvature $K \geq \delta > 0$ and diameter greater than $\frac{\pi}{2\sqrt{\delta}}$. Then, $M$ is homeomorphic to a sphere.
@@ -135,11 +136,11 @@ We are now able to state our main result.
 \label{thm:discrete_GS}
 \end{thm}
 
-\noindent The proof of this theorem relies on the remarkable work of Lutz, Sullivan and Sulanke in \cite{Lutz07, LutzSul_unpub, sulanke2009isomorphism} who created a complete census of positively curved combinatorial 3-manifolds along with a list of their topological types. See \cite{Lutz_online_manifolds} and \cite{Lutz_online_topological_types}. This census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. Note that all of these manifolds are homeomorphic to either a 3-sphere or to the quotient space of a 3-sphere under the action of a finite group. 
+\noindent The proof of this theorem relies on the work of Lutz, Sullivan and Sulanke in \cite{Lutz07, LutzSul_unpub, sulanke2009isomorphism} who created a complete census of positively curved combinatorial 3-manifolds along with a list of their topological types. See \cite{Lutz_online_manifolds} and \cite{Lutz_online_topological_types}. This census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. Note that all of these manifolds are homeomorphic to either a 3-sphere or to the quotient space of a 3-sphere under the action of a finite group. 
 
-A small Python program (available on request) was created to examine each manifold in the census and compute its diameter and edge-diameter. See Figure \ref{fig:type_statistics} for a plot of the number of manifolds by topological type and diameter. As claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:type_statistics_edges}. Note the existence of $3$-manifolds with edge-diameter greater than half the maximum allowed edge-diameter and which are {\em not} homeomorphic to the 3-sphere.
+Python programs (available on request) were written to examine each manifold in the census and compute its diameter and edge-diameter. See Figure \ref{fig:type_statistics} for a plot of the number of manifolds by topological type and diameter. As claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:type_statistics_edges}. Note the existence of $3$-manifolds with edge-diameter greater than half the maximum allowed edge-diameter and which are {\em not} homeomorphic to the 3-sphere.
 
-If one absolutely insists on results stated in terms of edge-diameter then the census does give us the following result:
+When only edge-paths are considered, as expected we obtain the following result from the census:
 
 \begin{thm} If $M$ is a connected, positively curved, combinatorial 3-manifold satisfying the bound $diam_1(M) > 3$ then $M$ is homeomorphic to the 3-sphere. Moreover, this bound is sharp.
 \end{thm}
@@ -212,7 +213,10 @@ To see this, consider a combinatorial 3-manifold $M$ containing a minimal jump f
 \noindent See \cite{Trout10} for details.
 
 It is not entirely surprising that discrete differential geometry on a PL-manifold $M$ comes to resemble classical differential geometry more and more as the set of admissible PL-paths on $M$ is expanded. Forcing ourselves to use only edges amounts to coarse-graining the underlying PL-geometry, and expanding the set of paths clearly reduces this coarse-graining. We could even include {\em all} the PL-paths in $M$ and still have a ``discrete'' geometry in some sense, because our PL-metric is determined solely by the structure of $M$ as a simplicial complex. However, since PL-paths admit infinitesimal deformations we would lose much of the ``discrete'' flavor to the theory. The successful use of hops and jumps in this paper and in \cite{Trout10} indicate that one can improve the behavior of discrete geometries by judicious inclusion of PL-paths in addition to edges. Investigating the possibilities for such inclusions and their benefits represents an exciting topic of further research.
-
 \bibliographystyle{plain}
 \bibliography{manifolds}
+
+
+\input{bigtable.tex}
+
 \end{document}
