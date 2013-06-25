@@ -5,9 +5,9 @@ from matplotlib.font_manager import fontManager, FontProperties
 #set fonts here
 font= FontProperties(size='small')
 params = {'backend': 'ps',
-          'axes.labelsize': 18,
-          'xtick.labelsize': 16,
-          'ytick.labelsize': 16,
+          'axes.labelsize': 16,
+          'xtick.labelsize': 15,
+          'ytick.labelsize': 15,
           'legend.fontsize': 16,
           #'font.family': 'sans',
           'font.serif': ['Times','Palatino','serif'],
@@ -37,7 +37,7 @@ ax = fig.add_subplot(1,1,1)
 diameters = [ 1, 2, 3, 4, 5 ]
 steps =[ '1', '2', '3', '4', '5' ]
 types = [ '$S^{3}/Q$',  '$L(4,1)$' ,'$L(3,1)$' ,'$RP^{3}$' ,'$S^{3}$' ]
-markers = ['ko','wo','bx','bo','ro']
+markers = ['ws','wo','bx','bs','ro']
 msdef = 9
 markersizes = [msdef,msdef,12,msdef,msdef]
 mewdef = 1
