@@ -1,30 +1,53 @@
+% EJC papers *must* begin with the following two lines. 
 \documentclass[12pt]{article}
+\usepackage{e-jc}
 
-\usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
-\usepackage{deluxetable}             
-\usepackage{graphicx}              % to include figures
-\usepackage{amsmath}               % great math stuff
-\usepackage{amsfonts}              % for blackboard bold, etc
-\usepackage{amsthm}                % better theorem environments
-\usepackage{url}
+% Please remove all other commands that change parameters such as
+% margins or pagesizes.
 
-% various theorems, numbered by section
+% only use standard LaTeX packages
+% only include packages that you actually need
 
-\newtheorem{thm}{Theorem}[section]
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{prop}[thm]{Proposition}
-\newtheorem{cor}[thm]{Corollary}
-\newtheorem{conj}[thm]{Conjecture}
-\newtheorem{dfn}[thm]{Definition}
+% we recommend these ams packages
+\usepackage{amsthm,amsmath,amssymb}
 
-\DeclareMathOperator{\id}{id}
+% we recommend the graphicx package for importing figures
+\usepackage{graphicx}
 
-\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
-\newcommand{\RR}{\mathbb{R}}      % for Real numbers
-\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
-\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
-\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
-	
+% use this command to create hyperlinks (optional and recommended)
+\usepackage[colorlinks=true,citecolor=black,linkcolor=black,urlcolor=blue]{hyperref}
+
+% use these commands for typesetting doi and arXiv references in the bibliography
+\newcommand{\doi}[1]{\href{http://dx.doi.org/#1}{\texttt{doi:#1}}}
+\newcommand{\arxiv}[1]{\href{http://arxiv.org/abs/#1}{\texttt{arXiv:#1}}}
+
+% all overfull boxes must be fixed; 
+% i.e. there must be no text protruding into the margins
+
+
+% declare theorem-like environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{claim}[theorem]{Claim}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{open}[theorem]{Open Problem}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{question}[theorem]{Question}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{note}[theorem]{Note}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
@@ -54,15 +77,15 @@ A particularly important goal in classical differential geometry is to elucidate
 results in this area are numerous, elegant, and have inspired an
 enormous amount of subsequent research. In this paper, we will present a discrete analogue of the ``generalized'' sphere theorem of Grove and Shiohama \cite{groveshiohama}.
 
-\begin{thm}[Grove-Shiohama] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with section curvature $K \geq \delta > 0$ and diameter greater than $\frac{\pi}{2\sqrt{\delta}}$. Then, $M$ is homeomorphic to a sphere.
+\begin{theorem}[Grove-Shiohama] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with section curvature $K \geq \delta > 0$ and diameter greater than $\frac{\pi}{2\sqrt{\delta}}$. Then, $M$ is homeomorphic to a sphere.
 \label{thm:grove_shiohama}
-\end{thm}
+\end{theorem}
 
 \noindent Note that this bound is sharp, since the real projective space $\mathbb{RP}^n$ admits a metric with uniform sectional curvature $K=1$ and diameter $\pi/2$. We should also note also that the diameter bound in Theorem \ref{thm:grove_shiohama} is exactly half the maximum diameter allowed by the Bonnet-Myers theorem:
 
-\begin{thm}[Bonnet-Myers] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with sectional curvature $K \geq \delta > 0$. Then the diameter of $M$ is at most $\frac{\pi}{\sqrt{\delta}}$.
+\begin{theorem}[Bonnet-Myers] Let $M$ be a complete, connected, $n$-dimensional Riemannian manifold with sectional curvature $K \geq \delta > 0$. Then the diameter of $M$ is at most $\frac{\pi}{\sqrt{\delta}}$.
 \label{thm:bonnet_myers}
-\end{thm}
+\end{theorem}
 
 \noindent The main result of this paper is a discrete version of Theorem \ref{thm:grove_shiohama} which is proved by brute-force checking of a combinatorial 3-manifold census created by Lutz and Sullivan \cite{LS}. Before we can state precisely this result, we need a few preliminaries.
 
@@ -73,24 +96,24 @@ The discrete version of Theorem \ref{thm:grove_shiohama} given in this paper wil
 
 A very natural discrete definition of distance in an abstract simplicial complex uses \textbf{edge-paths}. That is, paths entirely contained in the 1-skeleton of $M$. Let $\mathcal{P}_1$ denote the set of all edge-paths on $M$.
 
-\begin{dfn}The \textbf{edge-distance} between two vertices $v$ and $w$ in an abstract simplicial complex $M$ is the minimum length (as a PL-path in the standard PL-metric) of an edge-path from $v$ to $w$. We denote this quantity $d_1(v,w)$. The \textbf{edge-diameter} of $M$, written as $diam_1(M)$, is the maximum of $d_1(v,w)$ over all pairs of vertices $v$ and $w$ in $M$. 
-\end{dfn}
+\begin{definition}The \textbf{edge-distance} between two vertices $v$ and $w$ in an abstract simplicial complex $M$ is the minimum length (as a PL-path in the standard PL-metric) of an edge-path from $v$ to $w$. We denote this quantity $d_1(v,w)$. The \textbf{edge-diameter} of $M$, written as $diam_1(M)$, is the maximum of $d_1(v,w)$ over all pairs of vertices $v$ and $w$ in $M$. 
+\end{definition}
 
 \noindent Note that the length of an edge-path is simply the number of edges it traverses.
 
 A discrete version of the Bonnet-Myers theorem was previously proved in \cite{Trout10}. It applies to positively curved combinatorial 3-manifolds and gives a diameter bound in terms of the edge-diameter.
 
-\begin{thm}[Trout] For any connected positively curved combinatorial 3-manifold $M$ we have $diam_1(M)\leq 5$. Moreover, this bound is sharp.
+\begin{theorem}[Trout] For any connected positively curved combinatorial 3-manifold $M$ we have $diam_1(M)\leq 5$. Moreover, this bound is sharp.
 \label{thm:discrete_BM}
-\end{thm}
+\end{theorem}
 
 \noindent Interestingly, while the statement of Theorem \ref{thm:discrete_BM} uses edge-diameter, its proof relies on expanding the set of paths under consideration to include those which contain not only edges, but also other types of PL-paths between vertices. In this work, this enlarged set of paths will be crucial to obtaining a discrete result fully analogous to the classical generalized sphere theorem.
 
 \section{Hops and Jumps}
 The first new type of path is called a {\em hop}.
 
-\begin{dfn}[Hops] Suppose $\tau$ is a 2-simplex in $M$ and $v_1$ and $v_2$ are vertices in $M$ such that $v_1*\tau$ and $v_2*\tau$ are 3-simplices in $M$. The PL-path from $v_1$ through the barycenter of $\tau$ and ending on $v_2$ will be called a \textbf{hop} from $v_1$ to $v_2$. See Figure \ref{fig:hop} for an illustration.
-\end{dfn}
+\begin{definition}[Hops] Suppose $\tau$ is a 2-simplex in $M$ and $v_1$ and $v_2$ are vertices in $M$ such that $v_1*\tau$ and $v_2*\tau$ are 3-simplices in $M$. The PL-path from $v_1$ through the barycenter of $\tau$ and ending on $v_2$ will be called a \textbf{hop} from $v_1$ to $v_2$. See Figure \ref{fig:hop} for an illustration.
+\end{definition}
 
 \begin{figure}
 	\centering
@@ -101,8 +124,8 @@ The first new type of path is called a {\em hop}.
 
 \noindent The other new type of path we call a {\em jump.}
 
-\begin{dfn}[Jumps] Suppose there are edges $e_1$ and $e_2$ and vertices $v_1$ and $v_2$ in $M$ so that $e_1*e_2$ is a 3-simplex in $M$ and $v_1*e_1$ and $v_2*e_2$ are 2-simplices in $M$. We call the PL-path from $v_1$ through the barycenters of $e_1$ and $e_2$ and ending on $v_2$ a \textbf{jump} from $v_1$ to $v_2$. For an illustration, see Figure \ref{fig:jump}.
-\end{dfn}
+\begin{definition}[Jumps] Suppose there are edges $e_1$ and $e_2$ and vertices $v_1$ and $v_2$ in $M$ so that $e_1*e_2$ is a 3-simplex in $M$ and $v_1*e_1$ and $v_2*e_2$ are 2-simplices in $M$. We call the PL-path from $v_1$ through the barycenters of $e_1$ and $e_2$ and ending on $v_2$ a \textbf{jump} from $v_1$ to $v_2$. For an illustration, see Figure \ref{fig:jump}.
+\end{definition}
 
 \begin{figure}
 	\centering
@@ -117,14 +140,14 @@ Why are these paths relevant to this paper? In the classical setting, the genera
 
 What is the discrete Bonnet-Myers theorem corresponding to Theorem \ref{thm:discrete_BM} but which uses $diam(M)$? From the proof of Theorem \ref{thm:discrete_BM} in \cite{Trout10}, we have the following bound on the possible distances which occur in a positively curved 3-manifold.
 
-\begin{lem}[Trout] If $v$ and $w$ are vertices in a connected positively curved combinatorial 3-manifold $M$ then $d(v,w) \in \{0, 1, H, 2, J, 3, 2H, 4, 2J \}$.
-\end{lem}
+\begin{lemma}[Trout] If $v$ and $w$ are vertices in a connected positively curved combinatorial 3-manifold $M$ then $d(v,w) \in \{0, 1, H, 2, J, 3, 2H, 4, 2J \}$.
+\end{lemma}
 
 \noindent Note that we have listed the possible distances in increasing numerical order. This result implies the desired discrete Bonnet-Myers type theorem.
 
-\begin{thm}[Trout] For any connected positively curved combinatorial 3-manifold $M$ we have $diam(M) \leq 2J$.
+\begin{theorem}[Trout] For any connected positively curved combinatorial 3-manifold $M$ we have $diam(M) \leq 2J$.
 \label{thm:discrete_BM_expanded_paths}
-\end{thm}
+\end{theorem}
 
 \noindent Note, it is shown in \cite{Trout10} that this diameter bound is sharp.
 
@@ -132,9 +155,9 @@ What is the discrete Bonnet-Myers theorem corresponding to Theorem \ref{thm:disc
 
 We are now able to state our main result.
 
-\begin{thm} Let $M$ be a connected, positively curved, combinatorial 3-manifold. If $M$ has $diam(M)>J$ then it is homeomorphic to a 3-sphere. Moreover, this bound is sharp and equal to half the maximum diameter which occurs for any such $M$.
+\begin{theorem} Let $M$ be a connected, positively curved, combinatorial 3-manifold. If $M$ has $diam(M)>J$ then it is homeomorphic to a 3-sphere. Moreover, this bound is sharp and equal to half the maximum diameter which occurs for any such $M$.
 \label{thm:discrete_GS}
-\end{thm}
+\end{theorem}
 
 \noindent The proof of this theorem relies on the work of Lutz, Sullivan and Sulanke in \cite{Lutz07, LutzSul_unpub, sulanke2009isomorphism} who created a complete census of positively curved combinatorial 3-manifolds along with a list of their topological types. See \cite{Lutz_online_manifolds} and \cite{Lutz_online_topological_types}. This census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. Note that all of these manifolds are homeomorphic to either a 3-sphere or to the quotient space of a 3-sphere under the action of a finite group. 
 
@@ -142,8 +165,8 @@ Python programs (available on request) were written to examine each manifold in 
 
 When only edge-paths are considered, as expected we obtain the following result from the census:
 
-\begin{thm} If $M$ is a connected, positively curved, combinatorial 3-manifold satisfying the bound $diam_1(M) > 3$ then $M$ is homeomorphic to the 3-sphere. Moreover, this bound is sharp.
-\end{thm}
+\begin{theorem} If $M$ is a connected, positively curved, combinatorial 3-manifold satisfying the bound $diam_1(M) > 3$ then $M$ is homeomorphic to the 3-sphere. Moreover, this bound is sharp.
+\end{theorem}
 
 \begin{figure}
     \begin{center}
@@ -207,8 +230,8 @@ We should mention another notable advantage of expanding the space of paths to i
 
 To see this, consider a combinatorial 3-manifold $M$ containing a minimal jump from vertex $v$ to vertex $w$ passing through edges $e_1$ and $e_2$ (as seen in Figure \ref{fig:jump}.) Using the structure of a jump, we will construct two edge-paths starting at $v$. We choose the first edge from $v$ to some vertex in $e_1$ and then we can continue the path to either of the vertices in $e_2$. The resulting paths, $Q_1$ and $Q_2$, must be minimal among edge-paths. If they were not, then their endpoints would be connected by an edge and a two-edge path from $v$ to $w$ would exist, contradicting the minimality of the jump. Thus $Q_1$ and $Q_2$ provide examples of minimal edge-paths which ``branch''. The non-branching property of minimal paths is restored, at least for positively curved manifolds, if we include hops and jumps. In particular we have:
 
-\begin{thm}(Unique Extension) If two minimal paths $P_1$ and $P_2$ in $\mathcal{P}$ pass through the same first two simplices of a positively curved 3-manifold $M$ and $P_1$ and $P_2$ have the same length, then $P_1 = P_2$. This result is false if $\mathcal{P}$ is replaced by $\mathcal{•}mathcal{P}_1$.
-\end{thm}
+\begin{theorem}(Unique Extension) If two minimal paths $P_1$ and $P_2$ in $\mathcal{P}$ pass through the same first two simplices of a positively curved 3-manifold $M$ and $P_1$ and $P_2$ have the same length, then $P_1 = P_2$. This result is false if $\mathcal{P}$ is replaced by $\mathcal{P}_1$.
+\end{theorem}
 
 \noindent See \cite{Trout10} for details.
 
@@ -216,6 +239,6 @@ It is not entirely surprising that discrete differential geometry on a PL-manifo
 \bibliographystyle{plain}
 \bibliography{manifolds}
 
-\input{bigtable.tex}
+% \input{bigtable.tex}
 
 \end{document}
