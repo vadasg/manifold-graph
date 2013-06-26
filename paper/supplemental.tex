@@ -1,0 +1,40 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
+\usepackage{deluxetable}             
+\usepackage{graphicx}              % to include figures
+\usepackage{amsmath}               % great math stuff
+\usepackage{amsfonts}              % for blackboard bold, etc
+\usepackage{amsthm}                % better theorem environments
+\usepackage{url}
+
+% various theorems, numbered by section
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{dfn}[thm]{Definition}
+
+\DeclareMathOperator{\id}{id}
+
+\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
+\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+
+\begin{document}
+
+
+\title{A Generalized Sphere Theorem for Positively Curved Combinatorial 3-Manifolds: Supplemental Information}
+
+\maketitle
+
+\section{Table of Diameters}
+
+The following table lists the diameter of each of the positively curved 3-manifolds.  Here $N$ refers to the manifold number as tabulated by Lutz, Sullivan and Sulankein (see citations in paper), $t$ refers to the topological type, and $d$ refers to diameter, when hops ($H = \frac{2}{3}\sqrt{2}$) and jumps ($J = \frac{1}{2}\sqrt{2} + \sqrt{3}$) are considered.
+\input{bigtable.tex}
+
+\end{document}

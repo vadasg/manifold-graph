@@ -1,4 +1,5 @@
 TEX_NAME = paper
+SI_NAME = supplemental
 
 all:
 	make clean
@@ -8,6 +9,11 @@ all:
 	pdflatex ${TEX_NAME}
 	pdflatex ${TEX_NAME}
 	open ${TEX_NAME}.pdf &
+	make clean
+	pdflatex ${SI_NAME}
+	pdflatex ${SI_NAME}
+	#bibtex ${SI_NAME}
+	open ${SI_NAME}.pdf &
 	make clean
 
 clean:

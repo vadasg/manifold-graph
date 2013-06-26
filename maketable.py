@@ -25,7 +25,7 @@ for c in chunks:
 print len(chunks)
 
 
-t = Table.Table(N, justs='l'*N, caption='Awesome results', label="tab:full")
+t = Table.Table(N, justs='l'*N, caption='Diameters', label="tab:full")
 t.add_header_row(['HEAD']*N)
 
 t.add_data(chunks)
