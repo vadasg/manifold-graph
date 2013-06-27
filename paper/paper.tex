@@ -169,7 +169,7 @@ We are now able to state our main result.
 
 \noindent The proof of this theorem relies on the work of Lutz, Sullivan and Sulanke in \cite{Lutz07, LutzSul_unpub, sulanke2009isomorphism} who created a complete census of positively curved combinatorial 3-manifolds along with a list of their topological types. See \cite{Lutz_online_manifolds} and \cite{Lutz_online_topological_types}. This census contains 4787 manifolds, with the following topologies represented: the 3-sphere $S^3$, the real projective space $\mathbb{RP}^3$, the lens spaces $L(3,1)$ and $L(4,1)$, and the cube space $S^3/Q$. Note that all of these manifolds are homeomorphic to either a 3-sphere or to the quotient space of a 3-sphere under the action of a finite group. 
 
-Python programs (available on request) were written to examine each manifold in the census and compute its diameter and edge-diameter. See Figure \ref{fig:type_statistics} for a plot of the number of manifolds by topological type and diameter. As claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:type_statistics_edges}. Note the existence of $3$-manifolds with edge-diameter greater than half the maximum allowed edge-diameter and which are {\em not} homeomorphic to the 3-sphere.
+Python programs were written to examine each manifold in the census and compute its diameter and edge-diameter. Code is available online \cite{Gintautas_Trout_github_manifold} along with a complete table of results for each manifold. See Figure \ref{fig:type_statistics} for a plot of the number of manifolds by topological type and diameter. As claimed, every manifold with diameter greater than $J$ is a 3-sphere. The corresponding data using the coarser-grained edge-diameter can be found in Figure \ref{fig:type_statistics_edges}. Note the existence of $3$-manifolds with edge-diameter greater than half the maximum allowed edge-diameter and which are {\em not} homeomorphic to the 3-sphere.
 
 When only edge-paths are considered, as expected we obtain the following result from the census:
 
@@ -246,7 +246,5 @@ To see this, consider a combinatorial 3-manifold $M$ containing a minimal jump f
 It is not entirely surprising that discrete differential geometry on a PL-manifold $M$ comes to resemble classical differential geometry more and more as the set of admissible PL-paths on $M$ is expanded. Forcing ourselves to use only edges amounts to coarse-graining the underlying PL-geometry, and expanding the set of paths clearly reduces this coarse-graining. We could even include {\em all} the PL-paths in $M$ and still have a ``discrete'' geometry in some sense, because our PL-metric is determined solely by the structure of $M$ as a simplicial complex. However, since PL-paths admit infinitesimal deformations we would lose much of the ``discrete'' flavor to the theory. The successful use of hops and jumps in this paper and in \cite{Trout10} indicate that one can improve the behavior of discrete geometries by judicious inclusion of PL-paths in addition to edges. Investigating the possibilities for such inclusions and their benefits represents an exciting topic of further research.
 \bibliographystyle{plain}
 \bibliography{manifolds}
-
-% \input{bigtable.tex}
 
 \end{document}
